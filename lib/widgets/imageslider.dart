@@ -50,7 +50,7 @@ class ImageSlider extends StatelessWidget {
           ),
         );
       },
-      itemCount:posts[postindex].imageurl.length//tete[0].test.length,//posts[0].imageurl.length,
+      itemCount:posts[postindex].imageurl.length //tete[0].test.length,//posts[0].imageurl.length,
       //posts[postindex].imageurl.length
       // Image.asset(,fit: BoxFit.cover,),
       // Image.asset(posts[1].imageurl,fit: BoxFit.cover,),

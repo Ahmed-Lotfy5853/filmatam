@@ -1,9 +1,20 @@
 import 'package:filmatam/customcolor.dart';
+import 'package:filmatam/screens/loginscreen.dart';
+import 'package:filmatam/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
 
-class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({Key? key}) : super(key: key);
+import '../screens/aboutusscreen.dart';
+import 'homewidget.dart';
+import 'productwidget.dart';
+import 'restaurantwidget.dart';
 
+class DrawerWidget extends StatefulWidget {
+
+  @override
+  State<DrawerWidget> createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,27 +42,19 @@ class DrawerWidget extends StatelessWidget {
                           radius: 30,
                           backgroundImage: AssetImage('assets/dummy/person.png'),
                         ),
-                        Column(
-                          children: [
-                            Text("أحمد عماد الدين",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),),
-                            // Text("Ahmed@gmail.com",
-                            // style: TextStyle(
-                            //   color: Colors.white,
-                            //   fontSize: 25,
-                            // ),),
-                          ],
-                        ),
+                        Text("أحمد عماد الدين",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),),
 
                       ],
                     ),
                   ),
                 ),
                 ListTile(
+
                   leading: Icon(Icons.home,
                     size: 26,
                   ),
@@ -62,7 +65,10 @@ class DrawerWidget extends StatelessWidget {
 
                     ),
                   ),
-                  onTap: (){},
+                  onTap: (){
+
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen(page: 2,)));
+                  },
                 ),
                 ListTile(
                   leading: Icon(Icons.restaurant,
@@ -75,7 +81,13 @@ class DrawerWidget extends StatelessWidget {
 
                     ),
                   ),
-                  onTap: (){},
+                  onTap: (){
+
+                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen(page: 0)));
+                  // Navigator.pop(context);
+
+                    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+                  },
                 ),
                 ListTile(
                   leading: Icon(Icons.production_quantity_limits,
@@ -88,7 +100,10 @@ class DrawerWidget extends StatelessWidget {
 
                     ),
                   ),
-                  onTap: (){},
+                  onTap: (){
+                    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen(page: 3)));
+                  },
                 ),
                 ListTile(
                   leading: Icon(Icons.phone,
@@ -100,7 +115,9 @@ class DrawerWidget extends StatelessWidget {
                         fontSize: 24,
                     ),
                   ),
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RestaurantWidget()));
+                  },
                 ),
                 ListTile(
                   leading: Icon(Icons.domain,
@@ -112,10 +129,12 @@ class DrawerWidget extends StatelessWidget {
                         fontSize: 24,
                     ),
                   ),
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AboutusScreen()));
+                  },
                 ),
                 ListTile(
-                  leading: Icon(Icons.menu,
+                  leading: Icon(Icons.output,
                     size: 26,
                   ),
                   title: Text(
@@ -124,7 +143,10 @@ class DrawerWidget extends StatelessWidget {
                       fontSize: 24,
                     ),
                   ),
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+
+                  },
                 ),
               ],
             ),
@@ -133,3 +155,7 @@ class DrawerWidget extends StatelessWidget {
     );
   }
 }
+
+
+
+

@@ -1,11 +1,21 @@
 import 'package:filmatam/customcolor.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models.dart';
 import 'imageslider.dart';
 
-class HomeWidget extends StatelessWidget {
+class HomeWidget extends StatefulWidget {
+
   const HomeWidget({Key? key}) : super(key: key);
+
+  @override
+  State<HomeWidget> createState() => _HomeWidgetState();
+}
+
+class _HomeWidgetState extends State<HomeWidget> {
+  bool visible = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +77,22 @@ class HomeWidget extends StatelessWidget {
 
             ],
           ),
-          Text(posts[index].description,
-          style: TextStyle(
-            fontSize: 25,
 
-          ),),
+              InkWell(onTap: (){
+                setState(() {
+                  visible =!visible;
+                });
+              },
+                child: Text(posts[index].description,
+
+                overflow: visible?TextOverflow.ellipsis:TextOverflow.visible,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontFamily: 'bukra',
+                ),),
+              ),
+
+          SizedBox(height: 5,),
 
           ///////////////////////////////////////////////
          ImageSlider(postindex: index,),
@@ -102,8 +123,16 @@ class HomeWidget extends StatelessWidget {
               ),
               Row(
                 children: [
-                  IconButton(onPressed: null, icon: Icon(Icons.comment)),
-                  Text("${posts[index].commentsnumber}"),
+                 /* InkWell(
+              onTap: null,
+                    child:
+                      Image.asset('assets/icons/chat.png',
+                      scale: 25,),),
+                      SizedBox(width: 5,),*/
+                      IconButton(onPressed: null, icon: Icon(Icons.mode_comment_outlined)),
+                      Text("${posts[index].commentsnumber}"),
+
+
                 ],
               ),
               IconButton(onPressed: null, icon: Icon(Icons.share)),

@@ -32,8 +32,8 @@ class _SplashscreenState extends State<Splashscreen> {
     AnimatedSplashScreen(
         duration: 3000,
         splash: Center(child: Image.asset('assets/PNG/Logo_arabic_whitexx.png',)),
-        splashIconSize: 200,
-        nextScreen: MainScreen(),
+        splashIconSize: 175,
+        nextScreen: MainScreen(page: 2,),
         splashTransition: SplashTransition.fadeTransition,
         animationDuration: Duration(seconds: 4),
 

@@ -1,14 +1,31 @@
 import 'package:filmatam/customcolor.dart';
+import 'package:filmatam/screens/aboutusscreen.dart';
+import 'package:filmatam/screens/contactusscreen.dart';
+import 'package:filmatam/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'screens/loginscreen.dart';
+import 'screens/signupscreen.dart';
 import 'screens/splashscreen.dart';
+
 int index=1;
 final local =  [
   Locale('en', ''), // English, no country code
   Locale('ar', 'AE'), // Spanish, no country code
 ];
 void main() {
+
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        //color set to transperent or set your own color
+       // statusBarIconBrightness: Brightness.dark,
+        //set brightness for icons, like dark background light icons
+      )
+  );
+
   runApp(const MyApp());
 }
 
@@ -34,6 +51,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'في المطعم',
       theme: ThemeData(
+        splashColor: CustomColor.MainColor,
+        // highlightColor: Colors.white,
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -45,7 +64,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: CustomColor.MainColor,
       ),
-      home: Splashscreen(),
+      home: MainScreen(page: 2,)//ContactusScreen()//MainScreen(page: 2,),
     );
   }
 }
@@ -134,3 +153,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }*/
+
+
