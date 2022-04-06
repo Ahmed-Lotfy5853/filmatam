@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController PasswordController = TextEditingController();
   double height = 225;
 
-  var LoginValidationKey =  GlobalKey<FormState>();
+  var LoginValidationKey = GlobalKey<FormState>();
 
   late String EmailStr;
 

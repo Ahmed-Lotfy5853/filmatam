@@ -5,6 +5,7 @@ import '../customcolor.dart';
 PreferredSizeWidget CustomAppbar(){
   return
     AppBar(
+       elevation:3,
       toolbarHeight: 70,
       backgroundColor: Colors.white,
       //flexibleSpace: Image.asset('assets/PNG/Logo_arabic_coloredxx_icon.png',

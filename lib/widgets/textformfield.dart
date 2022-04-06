@@ -8,6 +8,8 @@ Widget CustomizedTextFormField({
   IconData? SIcon,
   bool Obsecure = false,
   Validation,
+  int min=1,
+  bool max = false,
 })=> Padding(
   padding: const EdgeInsets.symmetric(vertical: 7.0,horizontal: 15.0),
   child: TextFormField(
@@ -20,7 +22,7 @@ Widget CustomizedTextFormField({
       enabledBorder: OutlineInputBorder(
 
 borderSide: BorderSide(color: Colors.transparent),
-        borderRadius: BorderRadius.circular(50.0),
+        borderRadius: BorderRadius.circular(15.0),
       ),
       hintText: Hint,
       prefixIcon:  Icon(PIcon),
@@ -28,5 +30,7 @@ borderSide: BorderSide(color: Colors.transparent),
     ),
     validator: Validation,
     obscureText: Obsecure,
+    minLines: min,
+    maxLines: max?null:1,
   ),
 );

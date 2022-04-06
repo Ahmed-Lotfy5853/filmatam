@@ -2,6 +2,7 @@ import 'package:filmatam/customcolor.dart';
 import 'package:filmatam/screens/loginscreen.dart';
 import 'package:filmatam/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../screens/aboutusscreen.dart';
 import 'homewidget.dart';
@@ -67,7 +68,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                   onTap: (){
 
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen(page: 2,)));
+                    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen(page: 2,)));
+                    //MainScreen(page: 2,)
+                    Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                        duration: Duration(seconds: 2),
+                        curve: Curves.easeInOutExpo,
+                        type: PageTransitionType.leftToRightWithFade,
+                        child: MainScreen(page: 2,),
+                      ),
+                    );
                   },
                 ),
                 ListTile(
@@ -82,8 +93,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ),
                   ),
                   onTap: (){
+                    Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                        duration: Duration(seconds: 2),
+                        curve: Curves.easeInOutExpo,
+                        type: PageTransitionType.leftToRightWithFade,
+                        child: MainScreen(page: 0),
+                      ),
+                    );
 
-                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen(page: 0)));
                   // Navigator.pop(context);
 
                     //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
@@ -94,7 +113,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     size: 26,
                   ),
                   title: Text(
-                    "كل امنتجات",
+                    "كل المنتجات",
                     style: TextStyle(
                       fontSize: 24,
 
@@ -102,7 +121,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                   onTap: (){
                     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen(page: 3)));
+                    Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                        duration: Duration(seconds: 2),
+                        curve: Curves.easeInOutExpo,
+                        type: PageTransitionType.leftToRightWithFade,
+                        child: MainScreen(page: 3),
+                      ),
+                    );
+
                   },
                 ),
                 ListTile(
@@ -116,7 +144,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ),
                   ),
                   onTap: (){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RestaurantWidget()));
+                    Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                        duration: Duration(seconds: 2),
+                        curve: Curves.easeInOutExpo,
+                        type: PageTransitionType.leftToRightWithFade,
+                        child: MainScreen(page: 6),
+                      ),
+                    );
+
                   },
                 ),
                 ListTile(
@@ -130,7 +167,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ),
                   ),
                   onTap: (){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AboutusScreen()));
+                    Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                        duration: Duration(seconds: 2),
+                        curve: Curves.easeInOutExpo,
+                        type: PageTransitionType.leftToRightWithFade,
+                        child: MainScreen(page: 5),
+                      ),
+                    );
+
                   },
                 ),
                 ListTile(
@@ -144,7 +190,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ),
                   ),
                   onTap: (){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                    Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                        duration: Duration(seconds: 2),
+                        curve: Curves.easeInOutExpo,
+                        type: PageTransitionType.leftToRightWithFade,
+                        child: LoginScreen(),
+                      ),
+                    );
 
                   },
                 ),

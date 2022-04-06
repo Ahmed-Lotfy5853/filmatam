@@ -95,16 +95,13 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               InkWell(
                 onTap: (){
-
-                    if (SignupValidationKey.currentState!
-                        .validate()) {
-                      NameStr = NameController.text;
-                      EmailStr = EmailController.text;
-                      PasswordStr = PasswordController.text;
-                      print(NameStr);
-                      print(EmailStr);
-                      print(PasswordStr);
-
+                  if (SignupValidationKey.currentState!.validate()) {
+                    NameStr = NameController.text;
+                    EmailStr = EmailController.text;
+                    PasswordStr = PasswordController.text;
+                    print(NameStr);
+                    print(EmailStr);
+                    print(PasswordStr);
                   }
                 },
                 child: Container(

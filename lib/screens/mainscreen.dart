@@ -12,6 +12,7 @@ import '../widgets/personwidget.dart';
 import '../widgets/productwidget.dart';
 import '../widgets/restaurantwidget.dart';
 import 'aboutusscreen.dart';
+
 List<Widget> choice = [
   RestaurantWidget(),
   PersonWidget(),
@@ -21,35 +22,36 @@ List<Widget> choice = [
   AboutusScreen(),
   ContactusScreen(),
 ];
+
 class MainScreen extends StatefulWidget {
   int page = 2;
-   MainScreen({
+
+  MainScreen({
     required this.page,
-}) ;
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(),
       body: choice[widget.page],
       backgroundColor: Colors.grey.shade200,
-      bottomNavigationBar: CustomNavigationBarWidget(Index:widget.page ,Color:CustomColor.MainColor ,bColor:CustomColor.MainColor.shade50 ,Ontap: (index) {
-        setState(() {
-          widget.page = index;
-        });
-      }),
+      bottomNavigationBar: CustomNavigationBarWidget(
+          Index: widget.page < 5 ? widget.page : 2,
+          Color: CustomColor.MainColor,
+          bColor:
+              widget.page < 5 ? CustomColor.MainColor.shade50 : Colors.white,
+          Ontap: (index) {
+            setState(() {
+              widget.page = index;
+            });
+          }),
       drawer: DrawerWidget(),
-
     );
   }
 }
