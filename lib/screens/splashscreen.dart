@@ -1,4 +1,3 @@
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:filmatam/customcolor.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 import 'mainscreen.dart';
-
 
 class Splashscreen extends StatefulWidget {
   @override
@@ -16,7 +14,7 @@ class Splashscreen extends StatefulWidget {
 class _SplashscreenState extends State<Splashscreen> {
   @override
   Widget build(BuildContext context) {
-    return  new /*SplashScreen(
+    return new /*SplashScreen(
       seconds: 5,
       navigateAfterSeconds: new MainScreen(),/*
       title: new Text('في المطعم',
@@ -29,18 +27,21 @@ class _SplashscreenState extends State<Splashscreen> {
 
 
     )*/
-    AnimatedSplashScreen(
-        duration: 3000,
-        splash: Center(child: Image.asset('assets/PNG/Logo_arabic_whitexx.png',)),
-        splashIconSize: 175,
-        nextScreen: MainScreen(page: 2,),
-        splashTransition: SplashTransition.fadeTransition,
-        animationDuration: Duration(seconds: 4),
+        AnimatedSplashScreen(
+            duration: 3000,
+            splash: Center(
+                child: Image.asset(
+              'assets/PNG/Logo_arabic_whitexx.png',
+            )),
+            splashIconSize: 175,
+            nextScreen: MainScreen(
+              page: 2,
+            ),
+            splashTransition: SplashTransition.fadeTransition,
+            animationDuration: Duration(seconds: 4),
 
-        //pageTransitionType: PageTransitionType.scale,
+            //pageTransitionType: PageTransitionType.scale,
 
-        backgroundColor: CustomColor.MainColor);
+            backgroundColor: CustomColor.MainColor);
   }
 }
-
-

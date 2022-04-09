@@ -60,7 +60,10 @@ class AboutusScreen extends StatelessWidget {
             children: [
               Text(
                 'قصتنا',
-                style: TextStyle(fontSize: 30, color: CustomColor.MainColor,fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 30,
+                    color: CustomColor.MainColor,
+                    fontWeight: FontWeight.bold),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,8 +82,8 @@ class AboutusScreen extends StatelessWidget {
                       softWrap: true,
                       maxLines: 2,
                       textAlign: TextAlign.start,
-                      style: TextStyle(fontSize: 22,
-                          fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -100,8 +103,8 @@ class AboutusScreen extends StatelessWidget {
                     child: Text(
                       'تمكنهم من إنشاء هويه للمؤسسه قادره على المنافسه بقوه في مجالها',
                       textAlign: TextAlign.start,
-                      style: TextStyle(fontSize: 22,
-                          fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -118,9 +121,7 @@ class AboutusScreen extends StatelessWidget {
                   Text(
                     'متخصصون في مجال',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 22,
-                    fontWeight: FontWeight.bold
-                    ),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -133,8 +134,8 @@ class AboutusScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 20),
                       child: Text(
                         'الدعايه و التسويق',
-                        style:
-                            TextStyle(fontSize: 20, color: CustomColor.MainColor),
+                        style: TextStyle(
+                            fontSize: 20, color: CustomColor.MainColor),
                       ),
                     ),
                     Padding(
@@ -167,19 +168,18 @@ class AboutusScreen extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
                           'فريقنا',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 30,
                               color: CustomColor.MainColor),
                         ),
-
-
                       ],
-                        ),
+                    ),
                     CarouselSlider.builder(
                         options: CarouselOptions(
                             initialPage: 0,

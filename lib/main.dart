@@ -9,6 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/loginscreen.dart';
 import 'screens/signupscreen.dart';
 import 'screens/splashscreen.dart';
+import 'widgets/restaurantwidget.dart';
 
 int index = 1;
 final local = [
@@ -60,9 +61,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: CustomColor.MainColor,
         ),
-        home: MainScreen(
-          page: 2,
-        ) //ContactusScreen()//MainScreen(page: 2,),
+        home: Splashscreen() //ContactusScreen()//MainScreen(page: 2,),
         );
   }
 }

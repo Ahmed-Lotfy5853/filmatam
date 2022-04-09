@@ -5,11 +5,11 @@ class PersonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Person Page",
-      style: TextStyle(
-        fontSize: 30
-      ),),
+    return Column(
+      children:[ Text(
+        "Person Page",
+        style: TextStyle(fontSize: 30),
+      ),]
     );
   }
 }

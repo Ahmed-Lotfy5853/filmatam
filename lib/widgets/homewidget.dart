@@ -15,6 +15,10 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
   bool visible = true;
 
+  bool liked =false;
+
+  bool followed = false;
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -37,7 +41,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     icon: CircleAvatar(
                         radius: 30,
                         backgroundImage:
-                            AssetImage('assets/dummy/person.png'))),
+                            AssetImage('assets/dummy/person.png'),),splashColor: Colors.transparent,),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -68,9 +72,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                     //       borderRadius: BorderRadius.circular(12)
                     //   ),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          followed = !followed;
+                        });
+                      },
                       child: Text(
-                        "متابعه",
+                        followed?"متابع":"متابعه",
                         style: TextStyle(
                             fontSize: 22, color: CustomColor.MainColor),
                       ),
@@ -135,7 +143,12 @@ class _HomeWidgetState extends State<HomeWidget> {
               children: [
                 Row(
                   children: [
-                    IconButton(onPressed: null, icon: Icon(Icons.thumb_up)),
+                    IconButton(onPressed: (){
+                      setState(() {
+                        liked = !liked;
+                      });
+                    }, icon: Icon(Icons.thumb_up,
+                    color: liked?CustomColor.MainColor:Colors.grey,),splashColor: Colors.transparent,),
                     Text("${posts[index].likesnumber}"),
                   ],
                 ),
