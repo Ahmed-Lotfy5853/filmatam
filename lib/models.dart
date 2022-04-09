@@ -228,3 +228,31 @@ List<FoodCategory> FoodCategories = [
   FoodCategory(Name: 'فاكهه', ImageUrl: 'assets/foodcategory/fruit.png',),
   FoodCategory(Name: 'أكلات سريعه', ImageUrl: 'assets/foodcategory/hamburger.png',),
 ];
+
+class Account{
+  late String Name;
+  late String Photo;
+  late String Location;
+  late Map<String,Meal> FavoritesMeals;
+  late int followers;
+  late int following;
+  late int TastedMeals;
+
+  Account(
+      {required this.Name,
+      required this.Photo,
+      required this.Location,
+      required this.FavoritesMeals,
+      required this.followers,
+      required this.following,
+      required this.TastedMeals});
+}
+
+List<Account> Accounts = [
+  Account(Name: 'أحمد عماد الدين', Photo: 'assets/dummy/persons/person.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'أحمد عماد', Photo: 'assets/dummy/persons/person2.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'أحمد عماد', Photo: 'assets/dummy/persons/person3.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'أحمد عماد', Photo: 'assets/dummy/persons/person4.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'أحمد عماد', Photo: 'assets/dummy/persons/person5.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'أحمد عماد', Photo: 'assets/dummy/persons/person6.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+];

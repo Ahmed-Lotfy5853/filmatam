@@ -78,7 +78,7 @@ flutter:
   assets:
      - assets/PNG/
      - assets/foodcategory/
-     - assets/dummy/person.png
+     - assets/dummy/persons/
      - assets/dummy/restaurants/
      - assets/dummy/posts/
      - assets/dummy/meals/

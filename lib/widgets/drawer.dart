@@ -36,7 +36,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     children: [
                       CircleAvatar(
                         radius: 30,
-                        backgroundImage: AssetImage('assets/dummy/person.png'),
+                        backgroundImage: AssetImage('assets/dummy/persons/person.png'),
                       ),
                       Text(
                         "أحمد عماد الدين",

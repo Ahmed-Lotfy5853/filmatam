@@ -1,3 +1,4 @@
+//@dart=2.9
 import 'package:filmatam/customcolor.dart';
 import 'package:filmatam/screens/aboutusscreen.dart';
 import 'package:filmatam/screens/contactusscreen.dart';
@@ -29,7 +30,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -61,7 +62,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: CustomColor.MainColor,
         ),
-        home: Splashscreen() //ContactusScreen()//MainScreen(page: 2,),
+        home: MainScreen(page: 1,) //ContactusScreen()//MainScreen(page: 2,),
         );
   }
 }

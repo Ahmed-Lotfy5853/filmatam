@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(),
+      appBar: CustomAppbar(widget.page),
       body: choice[widget.page],
       backgroundColor: Colors.grey.shade200,
       bottomNavigationBar: CustomNavigationBarWidget(

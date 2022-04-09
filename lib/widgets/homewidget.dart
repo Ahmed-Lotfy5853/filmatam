@@ -41,7 +41,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     icon: CircleAvatar(
                         radius: 30,
                         backgroundImage:
-                            AssetImage('assets/dummy/person.png'),),splashColor: Colors.transparent,),
+                            AssetImage('assets/dummy/persons/person.png'),),splashColor: Colors.transparent,),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

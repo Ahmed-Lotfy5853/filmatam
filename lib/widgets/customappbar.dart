@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../customcolor.dart';
 
-PreferredSizeWidget CustomAppbar() {
+PreferredSizeWidget CustomAppbar(int page) {
   return AppBar(
-    elevation: 3,
+    elevation: (page==1)?0:3,
     toolbarHeight: 70,
     backgroundColor: Colors.white,
     //flexibleSpace: Image.asset('assets/PNG/Logo_arabic_coloredxx_icon.png',
