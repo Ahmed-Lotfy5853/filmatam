@@ -6,7 +6,7 @@ import 'package:page_transition/page_transition.dart';
 
 import '../screens/aboutusscreen.dart';
 import 'homewidget.dart';
-import 'productwidget.dart';
+import 'mealswidget.dart';
 import 'restaurantwidget.dart';
 
 class DrawerWidget extends StatefulWidget {

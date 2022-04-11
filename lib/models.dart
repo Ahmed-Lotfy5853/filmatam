@@ -249,10 +249,14 @@ class Account{
 }
 
 List<Account> Accounts = [
-  Account(Name: 'أحمد عماد الدين', Photo: 'assets/dummy/persons/person.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
-  Account(Name: 'أحمد عماد', Photo: 'assets/dummy/persons/person2.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
-  Account(Name: 'أحمد عماد', Photo: 'assets/dummy/persons/person3.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
-  Account(Name: 'أحمد عماد', Photo: 'assets/dummy/persons/person4.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
-  Account(Name: 'أحمد عماد', Photo: 'assets/dummy/persons/person5.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'محمد محمد', Photo: 'assets/dummy/persons/person.png', Location: 'المحله الكبرى', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'خالد محمود', Photo: 'assets/dummy/persons/person2.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'مصطفى أحمد', Photo: 'assets/dummy/persons/person3.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'المختار محمد', Photo: 'assets/dummy/persons/person4.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'هادي محمد', Photo: 'assets/dummy/persons/person5.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'فادي محمد', Photo: 'assets/dummy/persons/person6.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'مهند مصطفى', Photo: 'assets/dummy/persons/person6.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'إياد مصطفى', Photo: 'assets/dummy/persons/person6.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
   Account(Name: 'أحمد عماد', Photo: 'assets/dummy/persons/person6.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
+  Account(Name: 'مهند لاشين', Photo: 'assets/dummy/persons/person6.png', Location: 'El Mahalla El Kubra', FavoritesMeals: {'محشي':Meals[0],'مكرونه بشاميل':Meals[1]}, followers: 50, following: 5, TastedMeals: 520),
 ];

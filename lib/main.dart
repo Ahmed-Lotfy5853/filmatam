@@ -49,7 +49,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'في المطعم',
         theme: ThemeData(
-          splashColor: CustomColor.MainColor,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           // highlightColor: Colors.white,
           // This is the theme of your application.
           //
@@ -62,7 +63,8 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: CustomColor.MainColor,
         ),
-        home: MainScreen(page: 1,) //ContactusScreen()//MainScreen(page: 2,),
+        home: Splashscreen(),
+        // MainScreen(page: 1,)//ContactusScreen()//MainScreen(page: 2,),
         );
   }
 }

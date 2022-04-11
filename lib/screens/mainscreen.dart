@@ -9,7 +9,7 @@ import '../widgets/drawer.dart';
 import '../widgets/homewidget.dart';
 import '../widgets/orderwidget.dart';
 import '../widgets/personwidget.dart';
-import '../widgets/productwidget.dart';
+import '../widgets/mealswidget.dart';
 import '../widgets/restaurantwidget.dart';
 import 'aboutusscreen.dart';
 
@@ -17,12 +17,13 @@ List<Widget> choice = [
   RestaurantWidget(),
   PersonWidget(),
   HomeWidget(),
-  ProductWidget(),
+  MealsWidget(),
   OrderWidget(),
   AboutusScreen(),
   ContactusScreen(),
 ];
-
+//alert dialog
+//
 class MainScreen extends StatefulWidget {
   int page = 2;
 
@@ -38,6 +39,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: CustomAppbar(widget.page),
       body: choice[widget.page],
       backgroundColor: Colors.grey.shade200,

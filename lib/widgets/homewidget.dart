@@ -32,6 +32,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               children: [
@@ -41,14 +42,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                     icon: CircleAvatar(
                         radius: 30,
                         backgroundImage:
-                            AssetImage('assets/dummy/persons/person.png'),),splashColor: Colors.transparent,),
+                            AssetImage(Accounts[index].Photo),),splashColor: Colors.transparent,),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(posts[index].Name),
+                        Text(Accounts[index].Name),
                         Text(posts[index].date),
                       ],
                     ),
@@ -67,11 +68,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                 Container(
                     margin: EdgeInsets.all(3),
                     padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20)
+                    ),
                     //   decoration: BoxDecoration(
                     //       color: CustomColor.MainColor,
                     //       borderRadius: BorderRadius.circular(12)
                     //   ),
                     child: TextButton(
+
                       onPressed: () {
                         setState(() {
                           followed = !followed;
@@ -82,10 +87,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                         style: TextStyle(
                             fontSize: 22, color: CustomColor.MainColor),
                       ),
+
                       // style: ButtonStyle(
                       //  // overlayColor: MaterialStateProperty.all(Colors.green),
                       //  ),
-                    )),
+                    )
+                ),
               ],
             ),
 
@@ -95,13 +102,16 @@ class _HomeWidgetState extends State<HomeWidget> {
                   visible = !visible;
                 });
               },
-              child: Text(
-                posts[index].description,
-                overflow:
-                    visible ? TextOverflow.ellipsis : TextOverflow.visible,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontFamily: 'bukra',
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  posts[index].description,
+                  overflow:
+                      visible ? TextOverflow.ellipsis : TextOverflow.visible,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontFamily: 'bukra',
+                  ),
                 ),
               ),
             ),

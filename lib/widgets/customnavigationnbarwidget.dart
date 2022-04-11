@@ -26,6 +26,7 @@ Widget CustomNavigationBarWidget({Index, Color, bColor, Ontap}) {
     animationCurve: Curves.easeInOut,
     animationDuration: Duration(milliseconds: 600),
     onTap: Ontap,
+
     letIndexChange: (index) => true,
   );
 }

@@ -33,7 +33,7 @@ class _SplashscreenState extends State<Splashscreen> {
                 child: Image.asset(
               'assets/PNG/Logo_arabic_whitexx.png',
             )),
-            splashIconSize: 175,
+             splashIconSize: 175,
             nextScreen: MainScreen(
               page: 2,
             ),

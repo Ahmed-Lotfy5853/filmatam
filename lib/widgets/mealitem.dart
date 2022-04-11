@@ -1,5 +1,11 @@
+import 'dart:typed_data';
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 import '../customcolor.dart';
@@ -22,6 +28,17 @@ class MealItem extends StatefulWidget {
 
 class _MealItemState extends State<MealItem> {
   bool favorited = false;
+
+ /* late double _dimension;
+
+  @override
+  void initState() {
+    super.initState();
+    _dimension = 203.0;
+
+
+
+    }*/
 
   @override
   Widget build(BuildContext context) {
@@ -114,16 +131,8 @@ class _MealItemState extends State<MealItem> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Text(
-                                '${widget.price}L.E',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
+
+
                               RatingBarIndicator(
                                 rating: widget.rate,
                                 itemBuilder: (context, index) => Icon(
@@ -133,6 +142,16 @@ class _MealItemState extends State<MealItem> {
                                 itemCount: 5,
                                 itemSize: 20.0,
                                 direction: Axis.horizontal,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                ' ${widget.price}جم ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
                               ),
                             ],
                           ),
@@ -171,13 +190,16 @@ class _MealItemState extends State<MealItem> {
                       backgroundColor: Colors.white,
                       child: IconButton(
                           onPressed: null,
-                          color: CustomColor.MainColor,
-                          icon: Image.asset(
-                            'assets/icons/send.png',
-                            scale: 0.8,
-                          )),
+                          // color: CustomColor.MainColor,
+                          icon: Icon(Icons.add_shopping_cart,color: CustomColor.MainColor,size: 20,)
+                          // Image.asset(
+                          //   'assets/icons/send.png',
+                          //   scale: 0.8,
+                          // )
+                      ),
                       radius: 16,
                     ),
+
                     CircleAvatar(
                       backgroundColor: Colors.white,
                       child: IconButton(
@@ -186,9 +208,13 @@ class _MealItemState extends State<MealItem> {
                             favorited ? favorited = false : favorited = true;
                           });
                         },
-                        icon: Image.asset(favorited
-                            ? 'assets/icons/redheart.png'
-                            : 'assets/icons/redborderheart.png'),
+                        icon:         SvgPicture.asset(favorited?
+                             'assets/SVG/hearsvg.svg':'assets/SVG/heartfilled.svg'
+                           ,width: 16,height:16,color: CustomColor.MainColor,),
+                        //Icon(favorited?Icons.monitor_heart_outlined:Icons.heart_broken,color: CustomColor.MainColor,size: 20,),
+                        // Image.asset(favorited
+                        //     ? 'assets/icons/redheart.png'
+                        //     : 'assets/icons/redborderheart.png'),
                         iconSize: 20,
                         splashColor: Colors.transparent,
                       ),

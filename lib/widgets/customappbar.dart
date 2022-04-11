@@ -10,8 +10,9 @@ PreferredSizeWidget CustomAppbar(int page) {
     //flexibleSpace: Image.asset('assets/PNG/Logo_arabic_coloredxx_icon.png',
     // ),
     title: Image.asset(
-      'assets/PNG/Logo_arabic_coloredxx.png',
-      scale: 125,
+      'assets/icon/filmatam.png',
+      // 'assets/PNG/Logo_arabic_coloredxx.png',
+      //  scale: 2,
     ),
     centerTitle: true,
 
