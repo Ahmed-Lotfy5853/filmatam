@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:filmatam/customcolor.dart';
 import 'package:filmatam/screens/mainscreen.dart';
 import 'package:filmatam/screens/signupscreen.dart';
@@ -5,8 +7,12 @@ import 'package:filmatam/widgets/trytransition.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/models.dart';
 import '../widgets/textformfield.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,7 +31,17 @@ class _LoginScreenState extends State<LoginScreen> {
   late String EmailStr;
 
   late String PasswordStr;
-
+/*@override
+initState() async {
+  var u = UserApi();
+  List<user> data = await u.getAllUsers();
+  for(final i in data){
+    print("${i.id}");
+    print("${i.Name}");
+    print("${i.email}");
+    print("${i.password}");
+  }
+}*/
   Route _createRoute() {
     return PageRouteBuilder(
       transitionDuration: Duration(seconds: 2),
@@ -47,7 +63,24 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
   }
+  bool isAuth = false;
+  @override
+  void initState() {
+    _checkIfLoggedIn();
+    EmailController.text = 'a@a.com';
+    PasswordController.text = '123123';
+    super.initState();
+  }
 
+  void _checkIfLoggedIn() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var token = localStorage.getString('token');
+    if(token != null){
+      setState(() {
+        isAuth = true;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,10 +153,23 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          Image.asset(
-            'assets/PNG/Logo_arabic_coloredxx.png',
-            scale: 50,
+          SvgPicture.asset('assets/SVG/Logo_arabic_coloredxx_cleaned.svg'
+            ,width: 200,height:200,
+            //  color: CustomColor.MainColor,
           ),
+          // FutureBuilder<dynamic>(
+          //   future: UserApi().getAllUsers(),
+          //   builder: (context,snapshot){
+          //     print(snapshot);
+          //     if(snapshot.connectionState == ConnectionState.waiting)
+          //       return CircularProgressIndicator();
+          //     if(snapshot.hasData){
+          //       // print(snapshot.data);
+          //       return Center(child: Text(' Data Found'),);  }
+          //     else
+          //       return  Center(child: Text('No Data Found'),);
+          //   },
+          // ),
           Text(
             'تسجيل الدخول',
             style: TextStyle(
@@ -162,18 +208,52 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           InkWell(
-            onTap: () {
+            onTap: ()  {
+              // setState(() {
+              //   _isLoading = true;
+              // });
               if (LoginValidationKey.currentState!.validate()) {
                 EmailStr = EmailController.text;
                 PasswordStr = PasswordController.text;
-                print(EmailStr);
-                print(PasswordStr);
+                // print(EmailStr);
+                // print(PasswordStr);
+                var data = {
+                  'email':EmailStr,
+                  'password':PasswordStr,
+                  'device_name':'android',
+                };
+
+                // var res = await Network().authData(data, '/login');
+               // var body = json.decode(res.body);
+               //  if(body['success']){
+               //    print("success");
+               //    // SharedPreferences localStorage = await SharedPreferences.getInstance();
+               //    // localStorage.setString('token', json.encode(body['token']));
+               //    // localStorage.setString('user', json.encode(body['user']));
+               //    Navigator.pushReplacement(
+               //        context,
+               //        MaterialPageRoute(
+               //            builder: (context) => MainScreen(
+               //              page: 2,
+               //            )));
+               //  }else{
+               //    print("failed");
+               //    _showMsg(body['message']);
+
+                // }
+
+                // setState(() {
+                //   _isLoading = false;
+                // });
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MainScreen(
-                              page: 2,
-                            )));
+                  context,
+                  PageTransition(
+                    duration: Duration(seconds: 1),
+                    curve: Curves.easeInOutExpo,
+                    type: PageTransitionType.fade,
+                    child: MainScreen(page: 2,),
+                  ),
+                );
               }
             },
             child: Container(
@@ -183,8 +263,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.horizontal(
                       left: Radius.elliptical(30, 30),
                       right: Radius.elliptical(30, 30))),
-              child: Text(
-                'تسجيل الدخول',
+              child: Text(  _isLoading?
+                'جاري تسجيل الدخول..':'تسجيل الدخول',
                 style: TextStyle(fontSize: 25, color: Colors.white),
               ),
             ),
@@ -210,9 +290,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: IconButton(
                     onPressed: null,
-                    icon: Image.asset(
-                      'assets/icons/linkedin.png',
-                      scale: 20,
+                    icon: SvgPicture.asset('assets/SVG/in.svg'
+                      ,width: 30,height:30,
+                        color: Color(0xff0e76a8),
                     ),
                   )),
               Container(
@@ -225,9 +305,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: IconButton(
                     onPressed: null,
-                    icon: Image.asset(
-                      'assets/icons/google.png',
-                      scale: 20,
+                    icon: SvgPicture.asset('assets/SVG/g.svg'
+                      ,width: 30,height:30,
+                      // color: Color(0xff0e76a8),
                     ),
                   )),
               Container(
@@ -240,9 +320,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: IconButton(
                     onPressed: null,
-                    icon: Image.asset(
-                      'assets/icons/twitter.png',
-                      scale: 20,
+                    icon: SvgPicture.asset('assets/SVG/twitter.svg'
+                      ,width: 30,height:30,
+                      // color: Color(0xff0e76a8),
                     ),
                   )),
               Container(
@@ -255,9 +335,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: IconButton(
                     onPressed: null,
-                    icon: Image.asset(
-                      'assets/icons/facebook.png',
-                      scale: 20,
+                    icon: SvgPicture.asset('assets/SVG/f.svg'
+                      ,width: 30,height:30,
+                      color: Color(0xff0165E1),
                     ),
                   )),
             ],
@@ -266,6 +346,20 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     ));
   }
+}
+bool _isLoading = false;
+final _scaffoldKey = GlobalKey<ScaffoldState>();
+_showMsg(msg) {
+  final snackBar = SnackBar(
+    content: Text(msg),
+    action: SnackBarAction(
+      label: 'Close',
+      onPressed: () {
+        // Some code to undo the change!
+      },
+    ),
+  );
+  _scaffoldKey.currentState?.showSnackBar(snackBar);
 }
 
 class CustomClipPath extends CustomClipper<Path> {

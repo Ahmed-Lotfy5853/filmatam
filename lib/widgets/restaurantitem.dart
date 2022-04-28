@@ -3,14 +3,25 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 import '../customcolor.dart';
+import '../screens/restaurantitemdetailsscreen.dart';
 
 class RestaurantItem extends StatefulWidget {
   late String Name;
   late String ImageLogo;
+  late String restaurantdescription;
+  Map<String, List<String>> Branches;
   double rate = 2.5;
+  int personreviews = 0;
 
   RestaurantItem(
-      {required this.Name, required this.ImageLogo, required this.rate});
+      {
+        required this.Name,
+        required this.ImageLogo,
+        required this.restaurantdescription,
+        required this.Branches,
+        required this.rate,
+        required this.personreviews,
+      });
 
   @override
   State<RestaurantItem> createState() => _RestaurantItemState();
@@ -26,15 +37,15 @@ class _RestaurantItemState extends State<RestaurantItem> {
 
         // padding: EdgeInsets.only(top: 10, right: 5, left: 5),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: CustomColor.MainColor.withOpacity(0.4),
-              offset: Offset(2,2),
-              blurRadius:10
-            ),
-          ]
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                  color: CustomColor.MainColor.withOpacity(0.4),
+                  offset: Offset(2, 2),
+                  blurRadius: 10
+              ),
+            ]
         ),
         child: Stack(
           alignment: Alignment.topLeft,
@@ -55,7 +66,7 @@ class _RestaurantItemState extends State<RestaurantItem> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
                   child: Image.asset(
-                    widget.ImageLogo ,
+                    widget.ImageLogo,
                     width: double.infinity,
                   ),
                 ),
@@ -99,16 +110,17 @@ class _RestaurantItemState extends State<RestaurantItem> {
                       Text(
                         widget.Name,
                         style:
-                            TextStyle(fontSize: 25, color: Colors.black,
+                        TextStyle(fontSize: 25, color: Colors.black,
                             fontWeight: FontWeight.bold),
                         softWrap: true,
                       ),
                       RatingBarIndicator(
                         rating: widget.rate,
-                        itemBuilder: (context, index) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
+                        itemBuilder: (context, index) =>
+                            Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
                         itemCount: 5,
                         itemSize: 23.0,
                         direction: Axis.horizontal,
@@ -159,7 +171,7 @@ class _RestaurantItemState extends State<RestaurantItem> {
                       },
                       icon: Image.asset(favorited
                           ? 'assets/icons/redheart.png'
-                          : 'assets/icons/redborderheart.png'),
+                          : 'assets/icons/redborderheart.png',color: CustomColor.MainColor,),
                       iconSize: 20,
                       splashColor: Colors.transparent,
                     ),
@@ -171,7 +183,18 @@ class _RestaurantItemState extends State<RestaurantItem> {
           ],
         ),
       ),
-      onTap: null,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>
+              RestaurantItemDetailsScreen(name: widget.Name,
+                image: widget.ImageLogo,
+                personreviews:widget.personreviews,
+                rate: widget.rate, restaurantdescription: widget.restaurantdescription, Branches: widget.Branches,)
+            //MealItemDetails()
+          ),
+        );
+      },
     );
   }
 }

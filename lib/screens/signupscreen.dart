@@ -4,6 +4,7 @@ import 'package:filmatam/screens/loginscreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../widgets/textformfield.dart';
@@ -25,175 +26,183 @@ class _SignupScreenState extends State<SignupScreen> {
   late String EmailStr;
   late String PasswordStr;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    'assets/PNG/Logo_arabic_coloredxx.png',
-                    scale: 50,
-                  ),
-                ),
-              ),
-              Text(
-                'إنشاء حساب',
-                style: TextStyle(
-                    fontSize: 36,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-              Form(
-                key: SignupValidationKey,
-                child: Column(
-                  children: [
-                    CustomizedTextFormField(
-                      Hint: 'اسم المستخدم',
-                      Controller: NameController,
-                      PIcon: Icons.person,
-                      Keyboard: TextInputType.emailAddress,
-                      Validation: (value) {
-                        if (value!.isEmpty) {
-                          return 'حقل الاسم فارغاً';
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomizedTextFormField(
-                      Hint: 'البريد الالكتروني',
-                      Controller: EmailController,
-                      PIcon: Icons.mail,
-                      Keyboard: TextInputType.emailAddress,
-                      Validation: (value) {
-                        if (value!.isEmpty) {
-                          return 'حقل البريد فارغاً';
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomizedTextFormField(
-                      PIcon: Icons.lock,
-                      Keyboard: TextInputType.visiblePassword,
-                      Hint: 'كلمه المرور',
-                      Controller: PasswordController,
-                      Obsecure: true,
-                      Validation: (value) {
-                        if (value!.isEmpty) {
-                          return 'حقل كلمه المرور فارغاً';
-                        }
-                        return null;
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  if (SignupValidationKey.currentState!.validate()) {
-                    NameStr = NameController.text;
-                    EmailStr = EmailController.text;
-                    PasswordStr = PasswordController.text;
-                    print(NameStr);
-                    print(EmailStr);
-                    print(PasswordStr);
-                  }
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: CustomColor.MainColor,
-                      borderRadius: BorderRadius.horizontal(
-                          left: Radius.elliptical(30, 30),
-                          right: Radius.elliptical(30, 30))),
-                  child: Text(
-                    'إنشاء حساب',
-                    style: TextStyle(fontSize: 25, color: Colors.white),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'أو قم بإنشاء حساب باستخدام المنصات الاجتماعيه',
-                style: TextStyle(
-                    fontSize: 19,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w800),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Flex(
+        direction: Axis.vertical,
+        children: [Flexible(
+          child: Form(
+            key: SignupValidationKey,
+
+            child: Expanded(
+              child: Column(
                 children: [
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
+                  SvgPicture.asset('assets/SVG/Logo_arabic_coloredxx_cleaned.svg'
+                    ,width: 200,height:200,
+                    //  color: CustomColor.MainColor,
+                  ),
+                  Text(
+                    'إنشاء حساب',
+                    style: TextStyle(
+                        fontSize: 36,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Column(
+                    children: [
+                      CustomizedTextFormField(
+                        Hint: 'اسم المستخدم',
+                        Controller: NameController,
+                        PIcon: Icons.person,
+                        Keyboard: TextInputType.emailAddress,
+                        Validation: (value) {
+                          if (value!.isEmpty) {
+                            return 'حقل الاسم فارغاً';
+                          }
+                          return null;
+                        },
                       ),
-                      child: IconButton(
-                        onPressed: null,
-                        icon: Image.asset(
-                          'assets/icons/linkedin.png',
-                          scale: 20,
-                        ),
-                      )),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
+                      CustomizedTextFormField(
+                        Hint: 'البريد الالكتروني',
+                        Controller: EmailController,
+                        PIcon: Icons.mail,
+                        Keyboard: TextInputType.emailAddress,
+                        Validation: (value) {
+                          if (value!.isEmpty) {
+                            return 'حقل البريد فارغاً';
+                          }
+                          return null;
+                        },
                       ),
-                      child: IconButton(
-                        onPressed: null,
-                        icon: Image.asset(
-                          'assets/icons/google.png',
-                          scale: 20,
-                        ),
-                      )),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
+                      CustomizedTextFormField(
+                        PIcon: Icons.lock,
+                        Keyboard: TextInputType.visiblePassword,
+                        Hint: 'كلمه المرور',
+                        Controller: PasswordController,
+                        Obsecure: true,
+                        Validation: (value) {
+                          if (value!.isEmpty) {
+                            return 'حقل كلمه المرور فارغاً';
+                          }
+                          return null;
+                        },
                       ),
-                      child: IconButton(
-                        onPressed: null,
-                        icon: Image.asset(
-                          'assets/icons/twitter.png',
-                          scale: 20,
-                        ),
-                      )),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    ],
+                  ),
+                  InkWell(
+                    onTap: () async{
+                      if (SignupValidationKey.currentState!.validate()) {
+                        NameStr = NameController.text;
+                        EmailStr = EmailController.text;
+                        PasswordStr = PasswordController.text;
+                        print(NameStr);
+                        print(EmailStr);
+                        print(PasswordStr);
+                        var data = {
+                          'Name':NameStr,
+                          'Email':EmailStr,
+                          'Password':PasswordStr,
+                        };
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
+                          color: CustomColor.MainColor,
+                          borderRadius: BorderRadius.horizontal(
+                              left: Radius.elliptical(30, 30),
+                              right: Radius.elliptical(30, 30))),
+                      child: Text(
+                        'إنشاء حساب',
+                        style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
-                      child: IconButton(
-                        onPressed: null,
-                        icon: Image.asset(
-                          'assets/icons/facebook.png',
-                          scale: 20,
-                        ),
-                      )),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'أو قم بإنشاء حساب باستخدام المنصات الاجتماعيه',
+                    style: TextStyle(
+                        fontSize: 19,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w800),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: null,
+                            icon: SvgPicture.asset('assets/SVG/in.svg'
+                              ,width: 30,height:30,
+                              color: Color(0xff0e76a8),
+                            ),
+                          )),
+                      Container(
+                          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: null,
+                            icon: SvgPicture.asset('assets/SVG/g.svg'
+                              ,width: 30,height:30,
+                              // color: Color(0xff0e76a8),
+                            ),
+                          )),
+                      Container(
+                          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: null,
+                            icon: SvgPicture.asset('assets/SVG/twitter.svg'
+                              ,width: 30,height:30,
+                              // color: Color(0xff0e76a8),
+                            ),
+                          )),
+                      Container(
+                          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: null,
+                            icon: SvgPicture.asset('assets/SVG/f.svg'
+                              ,width: 30,height:30,
+                              color: Color(0xff0165E1),
+                            ),
+                          )),
+                    ],
+                  ),
+                  curve(context),
                 ],
               ),
-              curve(context),
-            ],
+            ),
           ),
-        ));
+        )],
+      ),
+    );
   }
 }
 
@@ -241,16 +250,16 @@ Widget curve(BuildContext context) {
               ),
             ),
             InkWell(
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                    duration: Duration(seconds: 2),
-                    curve: Curves.easeInOutExpo,
-                    type: PageTransitionType.fade,
-                    child: LoginScreen(),
-                  ),
-                );
+              onTap: () {Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  duration: Duration(seconds: 2),
+                  curve: Curves.easeInOutExpo,
+                  type: PageTransitionType.fade,
+                  child: LoginScreen(),
+                ),
+              );
+
               },
               child: Container(
                 child: Text(

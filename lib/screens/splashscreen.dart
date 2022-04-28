@@ -1,7 +1,10 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:filmatam/customcolor.dart';
+import 'package:filmatam/screens/loginscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 import 'mainscreen.dart';
@@ -27,18 +30,28 @@ class _SplashscreenState extends State<Splashscreen> {
 
 
     )*/
+//codeforces
+
+
         AnimatedSplashScreen(
-            duration: 3000,
+
+            duration: 100,
             splash: Center(
-                child: Image.asset(
+                child:
+                SvgPicture.asset('assets/SVG/Logo_arabic_whitexx_cleaned.svg'
+                  ,//width: 100,height:100,
+                //  color: CustomColor.MainColor,
+                ),
+
+              /* Image.asset(
               'assets/PNG/Logo_arabic_whitexx.png',
-            )),
-             splashIconSize: 175,
-            nextScreen: MainScreen(
-              page: 2,
+            )*/
             ),
+             splashIconSize: 175,
+            nextScreen:   LoginScreen()
+              ,
             splashTransition: SplashTransition.fadeTransition,
-            animationDuration: Duration(seconds: 4),
+            animationDuration: Duration(seconds: 1),
 
             //pageTransitionType: PageTransitionType.scale,
 

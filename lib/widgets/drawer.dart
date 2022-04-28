@@ -25,24 +25,27 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           child: Column(
             children: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen(page: 1,)));
+                },
                 child: Container(
                   padding: EdgeInsets.all(10),
                   color: CustomColor.MainColor,
                   height: 100,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CircleAvatar(
                         radius: 30,
                         backgroundImage: AssetImage('assets/dummy/persons/person.png'),
                       ),
+                      SizedBox(width: 20,),
                       Text(
                         "أحمد عماد الدين",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 28,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

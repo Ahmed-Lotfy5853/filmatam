@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-import '../models.dart';
+import '../model/models.dart';
 
 class te {
   //final String Te ;//= 'assets/dummy/food2.png';

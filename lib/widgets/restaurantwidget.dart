@@ -2,7 +2,7 @@ import 'package:filmatam/customcolor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../models.dart';
+import '../model/models.dart';
 import 'restaurantitem.dart';
 import 'restaurantitems.dart';
 
@@ -42,12 +42,12 @@ class RestaurantWidget extends StatelessWidget {
                   ),
                   suffixIcon: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: IconButton(icon: Icon(Icons.search),iconSize:30,color:Colors.red,splashColor: Colors.transparent,splashRadius:20, onPressed: () {  },),
+                    child: IconButton(icon: Icon(Icons.search),iconSize:30,color:CustomColor.MainColor,splashColor: Colors.transparent,splashRadius:20, onPressed: () {  },),
                   ),
                   suffixIconColor: CustomColor.MainColor,
                   prefixIcon: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: IconButton(icon: Icon(Icons.filter_list),iconSize:30,color:Colors.red,splashColor: Colors.transparent,splashRadius: 20, onPressed: () {  },),
+                    child: IconButton(icon: Icon(Icons.filter_list),iconSize:30,color:CustomColor.MainColor,splashColor: Colors.transparent,splashRadius: 20, onPressed: () {  },),
                   ),
                   prefixIconColor: CustomColor.MainColor,
                   enabledBorder: OutlineInputBorder(
@@ -70,7 +70,7 @@ class RestaurantWidget extends StatelessWidget {
                    int index = RestaurantData.key;
                   print(index);
                  */
-                Restaurants.map((RestaurantData)=>RestaurantItem(Name: RestaurantData.Name,rate:RestaurantData.rate,ImageLogo:RestaurantData.ImageLogo)).toList()
+                Restaurants.map((RestaurantData)=>RestaurantItem(Name: RestaurantData.Name,rate:RestaurantData.rate,ImageLogo:RestaurantData.ImageLogo, personreviews: RestaurantData.personreviews, restaurantdescription:RestaurantData.restaurantdescription, Branches: RestaurantData.branches)).toList()
                   ,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 165,
                   childAspectRatio: 0.65,

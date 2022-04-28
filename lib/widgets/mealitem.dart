@@ -208,7 +208,7 @@ class _MealItemState extends State<MealItem> {
                             favorited ? favorited = false : favorited = true;
                           });
                         },
-                        icon:         SvgPicture.asset(favorited?
+                        icon:         SvgPicture.asset(!favorited?
                              'assets/SVG/hearsvg.svg':'assets/SVG/heartfilled.svg'
                            ,width: 16,height:16,color: CustomColor.MainColor,),
                         //Icon(favorited?Icons.monitor_heart_outlined:Icons.heart_broken,color: CustomColor.MainColor,size: 20,),

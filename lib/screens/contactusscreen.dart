@@ -1,6 +1,7 @@
 import 'package:filmatam/customcolor.dart';
 import 'package:filmatam/widgets/customappbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../widgets/customnavigationnbarwidget.dart';
 import '../widgets/drawer.dart';
@@ -143,10 +144,11 @@ class _ContactusScreenState extends State<ContactusScreen> {
                         },
                         elevation: 10,
                         backgroundColor: CustomColor.MainColor,
-                        child: Image.asset(
-                          'assets/icons/telegram.png',
-                          scale: 0.6,
-                        ))),
+                        child: SvgPicture.asset('assets/SVG/telegram.svg'
+                          ,width: 45,height:45,
+                           color: Colors.white,
+                        ),
+                    )),
               ],
             )
           ],

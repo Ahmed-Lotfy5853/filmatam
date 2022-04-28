@@ -4,7 +4,7 @@ import 'package:filmatam/main.dart';
 import 'package:filmatam/widgets/imageslider.dart';
 import 'package:flutter/material.dart';
 
-import '../models.dart';
+import '../model/models.dart';
 import '../screens/mainscreen.dart';
 import 'mealitem.dart';
 import 'restaurantitem.dart';
