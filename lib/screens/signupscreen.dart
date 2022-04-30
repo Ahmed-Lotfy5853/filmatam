@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../model/models.dart';
+import '../services/userapi.dart';
 import '../widgets/textformfield.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -25,7 +27,13 @@ class _SignupScreenState extends State<SignupScreen> {
   late String NameStr;
   late String EmailStr;
   late String PasswordStr;
-
+@override
+  void initState() {
+  EmailController.text = 'a@a.com';
+  PasswordController.text = '12312378956';
+  NameController.text = 'ahmed';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,11 +108,26 @@ class _SignupScreenState extends State<SignupScreen> {
                         print(NameStr);
                         print(EmailStr);
                         print(PasswordStr);
-                        var data = {
-                          'Name':NameStr,
-                          'Email':EmailStr,
-                          'Password':PasswordStr,
+                        Map<String,String> data = {
+                          "name":NameStr,
+                          "email":EmailStr,
+                          "password":PasswordStr,
                         };
+                        print(data);
+                        connectApi.init();
+                        connectApi().postData(url: REGISTER, data: data).then((value) async {
+                          print(value);
+                          token = value.data['message'];
+                          return Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                              duration: Duration(seconds: 2),
+                              curve: Curves.easeInOutExpo,
+                              type: PageTransitionType.fade,
+                              child: LoginScreen(),
+                            ),
+                          );
+                        }).catchError((e)=>print(e));
                       }
                     },
                     child: Container(

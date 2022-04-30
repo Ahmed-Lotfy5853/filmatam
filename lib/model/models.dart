@@ -1,11 +1,12 @@
 //@dart=2.9
 import 'package:flutter/foundation.dart';
-
+Map<String,String> data;
+String token;
 class user {
   final String id;
-  final String Name;
+    String Name;
   final String type;
-  final String email;
+   String email;
   final String mobile;
   final String password;
 
@@ -25,7 +26,7 @@ class user {
   Map<String, dynamic> jsonData
 
   ){
-    return user(id: jsonData['id'], Name: jsonData['Name'], type: jsonData['type'] , email: jsonData['email'], mobile: jsonData['mobile'], password: jsonData['password']);
+    return user(id: jsonData['id'], Name: jsonData['name'], type: jsonData['type'] , email: jsonData['email'], mobile: jsonData['mobile'], password: jsonData['password']);
   }
 }
 

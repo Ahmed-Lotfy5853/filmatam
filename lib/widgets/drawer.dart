@@ -4,7 +4,9 @@ import 'package:filmatam/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../model/models.dart';
 import '../screens/aboutusscreen.dart';
+import '../services/userapi.dart';
 import 'homewidget.dart';
 import 'mealswidget.dart';
 import 'restaurantwidget.dart';
@@ -189,15 +191,22 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    PageTransition(
-                      duration: Duration(seconds: 2),
-                      curve: Curves.easeInOutExpo,
-                      type: PageTransitionType.leftToRightWithFade,
-                      child: LoginScreen(),
-                    ),
-                  );
+                  print(token);
+                  print(data);
+
+
+    connectApi().postData(url: LOGOUT,token:token).then((value) async {
+      Navigator.pushReplacement(
+        context,
+        PageTransition(
+          duration: Duration(seconds: 2),
+          curve: Curves.easeInOutExpo,
+          type: PageTransitionType.leftToRightWithFade,
+          child: LoginScreen(),
+        ),
+      );
+    }).catchError((e)=>print(e));
+
                 },
               ),
             ],

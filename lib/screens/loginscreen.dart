@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/models.dart';
+import '../services/userapi.dart';
 import '../widgets/textformfield.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   TextEditingController EmailController = TextEditingController();
 
   TextEditingController PasswordController = TextEditingController();
@@ -31,17 +33,13 @@ class _LoginScreenState extends State<LoginScreen> {
   late String EmailStr;
 
   late String PasswordStr;
-/*@override
-initState() async {
-  var u = UserApi();
-  List<user> data = await u.getAllUsers();
-  for(final i in data){
-    print("${i.id}");
-    print("${i.Name}");
-    print("${i.email}");
-    print("${i.password}");
-  }
-}*/
+@override
+initState()  {
+
+  _checkIfLoggedIn();
+  EmailController.text = 'a@a.com';
+  PasswordController.text = '123123';
+}
   Route _createRoute() {
     return PageRouteBuilder(
       transitionDuration: Duration(seconds: 2),
@@ -64,13 +62,11 @@ initState() async {
     );
   }
   bool isAuth = false;
-  @override
+  /*@override
   void initState() {
-    _checkIfLoggedIn();
-    EmailController.text = 'a@a.com';
-    PasswordController.text = '123123';
+
     super.initState();
-  }
+  }*/
 
   void _checkIfLoggedIn() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -217,11 +213,26 @@ initState() async {
                 PasswordStr = PasswordController.text;
                 // print(EmailStr);
                 // print(PasswordStr);
-                var data = {
+                 data = {
                   'email':EmailStr,
                   'password':PasswordStr,
-                  'device_name':'android',
+                  // 'device_name':'android',
                 };
+                connectApi.init();
+
+                connectApi().postData(url: LOGIN, data: data).then((value) async {
+                  token = value.data['access_token'];
+                  return Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                    duration: Duration(seconds: 1),
+                    curve: Curves.easeInOutExpo,
+                    type: PageTransitionType.fade,
+                    child: MainScreen(page: 2,),
+                  ),
+                );
+                }).catchError((e)=>print(e));
+                // connectApi().getData(url: LOGOUT, query: data).then((value) => print('succedded  $value')).catchError((e)=>print(e));
 
                 // var res = await Network().authData(data, '/login');
                // var body = json.decode(res.body);
@@ -245,15 +256,8 @@ initState() async {
                 // setState(() {
                 //   _isLoading = false;
                 // });
-                Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                    duration: Duration(seconds: 1),
-                    curve: Curves.easeInOutExpo,
-                    type: PageTransitionType.fade,
-                    child: MainScreen(page: 2,),
-                  ),
-                );
+
+
               }
             },
             child: Container(

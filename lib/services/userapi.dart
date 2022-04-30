@@ -1,8 +1,13 @@
+//@dart=2.9
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
+
+
 
 /*
 class UserApi{
@@ -29,38 +34,101 @@ List<user> ulist = users().userList.map((e) => user.fromJson(e)).toList();
 }*/
 
 
-class Network{
-  final String _url = 'http://10.0.2.2:8000/api/';
-  //if you are using android studio emulator, change localhost to 10.0.2.2
-  var token;
+// class Network{
+//   final String _url = 'http://10.0.2.2:8000/api/';
+//   //if you are using android studio emulator, change localhost to 10.0.2.2
+//   var token;
+//
+//   _getToken() async {
+//     SharedPreferences localStorage = await SharedPreferences.getInstance();
+//     token = jsonDecode(localStorage.getString('token')!)['token'];
+//   }
+//
+//   authData(data, apiUrl) async {
+//     var fullUrl = _url + apiUrl;
+//     return await http.post(
+//         Uri.parse(fullUrl),
+//         body: jsonEncode(data),
+//         headers: _setHeaders()
+//     );
+//   }
+//
+//   getData(apiUrl) async {
+//     var fullUrl = _url + apiUrl;
+//     await _getToken();
+//     return await http.get(
+//         Uri.parse(fullUrl),
+//         headers: _setHeaders()
+//     );
+//   }
+//
+//   _setHeaders() => {
+//     'Content-type' : 'application/json',
+//     'Accept' : 'application/json',
+//     'Authorization' : 'Bearer $token'
+//   };
+//
+// }
 
-  _getToken() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    token = jsonDecode(localStorage.getString('token')!)['token'];
+ class connectApi{
+    static Dio dio;
+
+ static init(){
+     dio = Dio(
+     BaseOptions(
+         baseUrl: "http://10.0.2.2:8000/api/",
+         receiveDataWhenStatusError: true,
+         headers: {
+           'Content-Type':'application/json',
+           'Accept':'application/json'
+         },
+         followRedirects: false,
+         validateStatus: (status) { return status < 500;}
+     ),
+   );
+ }
+
+   Future<Response> getData({
+     @required String url,
+     @required  Map<String,dynamic>query,
+     String token,
+
+   }) async{
+return await dio.get(url,queryParameters: query,
+options: Options(
+  headers: {
+    'Authorization': 'Bearer $token'
   }
+)
 
-  authData(data, apiUrl) async {
-    var fullUrl = _url + apiUrl;
-    return await http.post(
-        Uri.parse(fullUrl),
-        body: jsonEncode(data),
-        headers: _setHeaders()
-    );
-  }
+);
+   }
 
-  getData(apiUrl) async {
-    var fullUrl = _url + apiUrl;
-    await _getToken();
-    return await http.get(
-        Uri.parse(fullUrl),
-        headers: _setHeaders()
-    );
-  }
+   Future<Response> postData({
+     @required String url,
+     Map<String,dynamic>query,
+     String token,
+       Map<String,dynamic>data,
+   }) async{
+     return  dio.post(url,
+     queryParameters: query,
+     data: data,
 
-  _setHeaders() => {
-    'Content-type' : 'application/json',
-    'Accept' : 'application/json',
-    'Authorization' : 'Bearer $token'
-  };
+     options: Options(
+         headers: {
+         'Authorization': 'Bearer $token'
+         }
+
+     ));
+   }
 
 }
+
+
+//End Points
+
+const LOGIN = 'login';
+const LOGOUT = 'logout';
+const REGISTER = 'register';
+const USER = 'user';
+
