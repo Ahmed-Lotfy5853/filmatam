@@ -2,6 +2,7 @@ import 'package:filmatam/customcolor.dart';
 import 'package:filmatam/screens/loginscreen.dart';
 import 'package:filmatam/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../model/models.dart';
@@ -193,6 +194,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 onTap: () {
                   print(token);
                   print(data);
+                  Fluttertoast.showToast(
+                      msg: 'تسجيل خروج',
+                      backgroundColor: CustomColor.MainColor,
+
+                      textColor: Colors.white);
 
 
     connectApi().postData(url: LOGOUT,token:token).then((value) async {

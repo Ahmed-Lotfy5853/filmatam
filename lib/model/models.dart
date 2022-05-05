@@ -187,8 +187,10 @@ class Meal {
     @required this.rate,
     @required this.Price});
 }
+List<dynamic> Restaurants = [];
 
-List<Restaurant> Restaurants = [
+
+/*List<Restaurant> Restaurants = [
   Restaurant(
       Name: 'كنتاكي',
       ImageLogo: 'assets/dummy/restaurants/kfc.png',
@@ -266,7 +268,7 @@ List<Restaurant> Restaurants = [
       rate: 2,
       personreviews: 5,
       restaurantdescription: 'كافيه لتقديم القهوه للفئات المجتمعيه الفاخره'),
-];
+];*/
 List<Meal> Meals = [
   Meal(
     Name: 'محشي',

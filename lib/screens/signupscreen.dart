@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/models.dart';
 import '../services/userapi.dart';
@@ -27,79 +29,107 @@ class _SignupScreenState extends State<SignupScreen> {
   late String NameStr;
   late String EmailStr;
   late String PasswordStr;
-@override
-  void initState() {
-  EmailController.text = 'a@a.com';
-  PasswordController.text = '12312378956';
-  NameController.text = 'ahmed';
+  Future<void> setSignup() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("NameStr", NameStr);
+    await prefs.setString("EmailStr", EmailStr);
+    await prefs.setString("PasswordStr", PasswordStr);
+  }
+  Future<String> getName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return await prefs.getString("NameStr")??'';
+  }
+  Future<String> getEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    return await prefs.getString("EmailStr")??'';
+  }
+  Future<String> getPassword() async {
+    final prefs = await SharedPreferences.getInstance();
+    return await prefs.getString("PasswordStr")??'';
+  }
+  @override
+  initState()  {
+
+
+    getName().then((value) => NameController.text = value).catchError((e)=>print(e)) ;
+    getEmail().then((value) => EmailController.text = value).catchError((e)=>print(e)) ;
+    getPassword().then((value) => PasswordController.text = value).catchError((e)=>print(e)) ;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Flex(
-        direction: Axis.vertical,
-        children: [Flexible(
-          child: Form(
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Form(
             key: SignupValidationKey,
 
-            child: Expanded(
-              child: Column(
-                children: [
-                  SvgPicture.asset('assets/SVG/Logo_arabic_coloredxx_cleaned.svg'
-                    ,width: 200,height:200,
-                    //  color: CustomColor.MainColor,
-                  ),
-                  Text(
+            child: ListView(
+              children: [
+                SvgPicture.asset('assets/SVG/Logo_arabic_coloredxx_cleaned.svg'
+                  ,width: 200,height:180,
+                  //  color: CustomColor.MainColor,
+                ),
+                Center(
+                  child: Text(
                     'إنشاء حساب',
                     style: TextStyle(
                         fontSize: 36,
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                  Column(
-                    children: [
-                      CustomizedTextFormField(
-                        Hint: 'اسم المستخدم',
-                        Controller: NameController,
-                        PIcon: Icons.person,
-                        Keyboard: TextInputType.emailAddress,
-                        Validation: (value) {
-                          if (value!.isEmpty) {
-                            return 'حقل الاسم فارغاً';
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomizedTextFormField(
-                        Hint: 'البريد الالكتروني',
-                        Controller: EmailController,
-                        PIcon: Icons.mail,
-                        Keyboard: TextInputType.emailAddress,
-                        Validation: (value) {
-                          if (value!.isEmpty) {
-                            return 'حقل البريد فارغاً';
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomizedTextFormField(
-                        PIcon: Icons.lock,
-                        Keyboard: TextInputType.visiblePassword,
-                        Hint: 'كلمه المرور',
-                        Controller: PasswordController,
-                        Obsecure: true,
-                        Validation: (value) {
-                          if (value!.isEmpty) {
-                            return 'حقل كلمه المرور فارغاً';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
-                  ),
-                  InkWell(
+                ),
+                Column(
+                  children: [
+                    CustomizedTextFormField(
+                      Hint: 'اسم المستخدم',
+                      Controller: NameController,
+                      PIcon: Icons.person,
+                      Keyboard: TextInputType.emailAddress,
+                      Validation: (value) {
+                        if (value!.isEmpty) {
+                          return 'حقل الاسم فارغاً';
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomizedTextFormField(
+                      Hint: 'البريد الالكتروني',
+                      Controller: EmailController,
+                      PIcon: Icons.mail,
+                      Keyboard: TextInputType.emailAddress,
+                      Validation: (value) {
+                        if (value!.isEmpty) {
+                          return 'حقل البريد فارغاً';
+                        }else if (!(value!.contains('@') &&
+                            value!.contains('.com'))) {
+                          return 'البريد غير صالح';
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomizedTextFormField(
+                      PIcon: Icons.lock,
+                      Keyboard: TextInputType.visiblePassword,
+                      Hint: 'كلمه المرور',
+                      Controller: PasswordController,
+                      Obsecure: true,
+                      Validation: (value) {
+                        if (value!.isEmpty) {
+                          return 'حقل كلمه المرور فارغاً';
+                        }else if (value!.length < 8) {
+                          return 'كلمه المرور لا تقل عن 8 أحرف';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: InkWell(
                     onTap: () async{
                       if (SignupValidationKey.currentState!.validate()) {
                         NameStr = NameController.text;
@@ -118,6 +148,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         connectApi().postData(url: REGISTER, data: data).then((value) async {
                           print(value);
                           token = value.data['message'];
+                          await setSignup();
+                          Fluttertoast.showToast(
+                              msg: 'راجع بريدك لتفعيل الحساب',
+                              backgroundColor: CustomColor.MainColor);
                           return Navigator.pushReplacement(
                             context,
                             PageTransition(
@@ -127,7 +161,10 @@ class _SignupScreenState extends State<SignupScreen> {
                               child: LoginScreen(),
                             ),
                           );
-                        }).catchError((e)=>print(e));
+                        }).catchError((e)=>Fluttertoast.showToast(
+                            msg: 'فشل تسجيل البيانات يرجى اعاده المحاوله',
+                            backgroundColor: CustomColor.MainColor,
+                            textColor: Colors.white));
                       }
                     },
                     child: Container(
@@ -143,87 +180,90 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'أو قم بإنشاء حساب باستخدام المنصات الاجتماعيه',
-                    style: TextStyle(
-                        fontSize: 19,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'أو قم بإنشاء حساب باستخدام المنصات الاجتماعيه',
+                  style: TextStyle(
+                      fontSize: 19,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                          border: Border.all(
+                            color: Colors.black,
                           ),
-                          child: IconButton(
-                            onPressed: null,
-                            icon: SvgPicture.asset('assets/SVG/in.svg'
-                              ,width: 30,height:30,
-                              color: Color(0xff0e76a8),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
+                        ),
+                        child: IconButton(
+                          onPressed: null,
+                          icon: SvgPicture.asset('assets/SVG/in.svg'
+                            ,width: 30,height:30,
+                            color: Color(0xff0e76a8),
                           ),
-                          child: IconButton(
-                            onPressed: null,
-                            icon: SvgPicture.asset('assets/SVG/g.svg'
-                              ,width: 30,height:30,
-                              // color: Color(0xff0e76a8),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
+                        )),
+                    Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                          border: Border.all(
+                            color: Colors.black,
                           ),
-                          child: IconButton(
-                            onPressed: null,
-                            icon: SvgPicture.asset('assets/SVG/twitter.svg'
-                              ,width: 30,height:30,
-                              // color: Color(0xff0e76a8),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
+                        ),
+                        child: IconButton(
+                          onPressed: null,
+                          icon: SvgPicture.asset('assets/SVG/g.svg'
+                            ,width: 30,height:30,
+                            // color: Color(0xff0e76a8),
                           ),
-                          child: IconButton(
-                            onPressed: null,
-                            icon: SvgPicture.asset('assets/SVG/f.svg'
-                              ,width: 30,height:30,
-                              color: Color(0xff0165E1),
-                            ),
-                          )),
-                    ],
-                  ),
-                  curve(context),
-                ],
-              ),
+                        )),
+                    Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                        ),
+                        child: IconButton(
+                          onPressed: null,
+                          icon: SvgPicture.asset('assets/SVG/twitter.svg'
+                            ,width: 30,height:30,
+                            // color: Color(0xff0e76a8),
+                          ),
+                        )),
+                    Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                        ),
+                        child: IconButton(
+                          onPressed: null,
+                          icon: SvgPicture.asset('assets/SVG/f.svg'
+                            ,width: 30,height:30,
+                            color: Color(0xff0165E1),
+                          ),
+                        )),
+                  ],
+                ),
+
+
+
+              ],
             ),
           ),
-        )],
+          curve(context),
+        ],
       ),
     );
   }

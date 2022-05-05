@@ -131,4 +131,8 @@ const LOGIN = 'login';
 const LOGOUT = 'logout';
 const REGISTER = 'register';
 const USER = 'user';
+const CITY  = 'cities';
+const RESTAURANTS  = 'restaurants';
+const WISHLIST  = 'wishlists';
+const POSTS  = 'posts';
 

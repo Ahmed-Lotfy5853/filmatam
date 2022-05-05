@@ -3,13 +3,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../model/models.dart';
+import '../services/userapi.dart';
 import 'restaurantitem.dart';
 import 'restaurantitems.dart';
 
-class RestaurantWidget extends StatelessWidget {
-  TextEditingController SearchController = TextEditingController();
+class RestaurantWidget extends StatefulWidget {
 
    RestaurantWidget({Key? key}) : super(key: key);
+
+  @override
+  State<RestaurantWidget> createState() => _RestaurantWidgetState();
+}
+
+class _RestaurantWidgetState extends State<RestaurantWidget> {
+  TextEditingController SearchController = TextEditingController();
+  @override
+  void initState() {
+    connectApi()
+        .getData(url: RESTAURANTS, query: data, token: token)
+        .then((value) async {
+
+      // print(Cities);
+      setState(() {
+        Restaurants = value.data;
+        // value.data.forEach((e)=>Cities.add(e['name_ar']));
+        // person.Name = value.data['name'];
+        // person.Name = value.data['name'];
+      });
+    });    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +92,10 @@ class RestaurantWidget extends StatelessWidget {
                    int index = RestaurantData.key;
                   print(index);
                  */
-                Restaurants.map((RestaurantData)=>RestaurantItem(Name: RestaurantData.Name,rate:RestaurantData.rate,ImageLogo:RestaurantData.ImageLogo, personreviews: RestaurantData.personreviews, restaurantdescription:RestaurantData.restaurantdescription, Branches: RestaurantData.branches)).toList()
+                Restaurants.map((RestaurantData)=>RestaurantItem(Name: RestaurantData['restaurant_name'],rate:RestaurantData['rate'],ImageLogo:RestaurantData['logo'], personreviews: RestaurantData['persons_rating_number'], restaurantdescription:RestaurantData['restaurant_description'], Branches: {
+                  'القاهره': ['المهندسين', 'الزمالك']
+                }
+                )).toList()
                   ,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 165,
                   childAspectRatio: 0.65,

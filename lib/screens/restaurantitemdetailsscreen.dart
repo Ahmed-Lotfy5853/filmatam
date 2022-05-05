@@ -10,8 +10,8 @@ class RestaurantItemDetailsScreen extends StatefulWidget {
   String name;
   Map<String, List<String>> Branches;
   String restaurantdescription;
-  int personreviews;
-  double rate;
+  String personreviews;
+  String rate;
 
   RestaurantItemDetailsScreen({
     required this.image,
@@ -135,7 +135,7 @@ class _RestaurantItemDetailsScreenState
                           ),
                           SizedBox(width: 10,),
                           Text(
-                            '${widget.rate}',
+                            widget.rate,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 28,
@@ -144,7 +144,7 @@ class _RestaurantItemDetailsScreenState
                         ],
                       ),
                       Text(
-                        '${widget.personreviews}',
+                        widget.personreviews,
                         style: TextStyle(fontSize: 20),
                       )
                     ],

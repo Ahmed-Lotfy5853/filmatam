@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../model/models.dart';
+import '../services/userapi.dart';
 import 'imageslider.dart';
 import 'postitem.dart';
 
@@ -28,13 +29,33 @@ class _HomeWidgetState extends State<HomeWidget> {
 
 
   var formKey = GlobalKey<FormState>();
+  List<dynamic>Posts=[];
+
+  @override
+  void initState() {
+    connectApi()
+        .getData(url: POSTS, query: data, token: token)
+        .then((value) async {
+
+      // print(Cities);
+      setState(() {
+        Posts = value.data;
+        // value.data.forEach((e)=>Cities.add(e['name_ar']));
+        // person.Name = value.data['name'];
+        // person.Name = value.data['name'];
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemBuilder: (ctx, index) =>
-          PostItem(photo: Accounts[index].Photo,name:Accounts[index].Name,date: posts[index].date,description: posts[index].description,photos: posts[index].imageurl,likes: posts[index].likesnumber,comments: posts[index].commentsnumber,index: index,),
-      itemCount: posts.length,
+      itemBuilder: (ctx, index) {
+        // print(Posts[index]['video'].split());
+        return PostItem(photo: Accounts[index].Photo,name:Accounts[index].Name,date: Posts[index]['time_ago'],description: Posts[index]['description'],photos: Posts[index]['video'],likes: Posts[index]['likes'],comments: Posts[index]['comments'],index: index,);
+      },
+      itemCount: Posts.length,
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +22,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin{
 
   TextEditingController EmailController = TextEditingController();
 
@@ -33,12 +34,52 @@ class _LoginScreenState extends State<LoginScreen> {
   late String EmailStr;
 
   late String PasswordStr;
-@override
+
+   late Widget child;
+   late bool expand;
+  late AnimationController expandController;
+  late Animation<double> animation;
+// Obtain shared preferences.
+
+  Future<void> setSign() async {
+    final prefs = await SharedPreferences.getInstance();
+   await prefs.setString("EmailStr", EmailStr);
+    await prefs.setString("PasswordStr", PasswordStr);
+  }
+   Future<String> getEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+   return await prefs.getString("EmailStr")??'';
+  }
+  Future<String> getPassword() async {
+    final prefs = await SharedPreferences.getInstance();
+    return await prefs.getString("PasswordStr")??'';
+  }
+  ///Setting up the animation
+  void prepareAnimations() {
+    expandController = AnimationController(
+        vsync: this,
+        duration: Duration(milliseconds: 500)
+    );
+    animation = CurvedAnimation(
+      parent: expandController,
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  void _runExpandCheck() {
+    if(expand) {
+      expandController.forward();
+    }
+    else {
+      expandController.reverse();
+    }
+  }
+  @override
 initState()  {
 
   _checkIfLoggedIn();
-  EmailController.text = 'a@a.com';
-  PasswordController.text = '123123';
+    getEmail().then((value) => EmailController.text = value).catchError((e)=>print(e)) ;
+   getPassword().then((value) => PasswordController.text = value).catchError((e)=>print(e)) ;
 }
   Route _createRoute() {
     return PageRouteBuilder(
@@ -222,6 +263,11 @@ initState()  {
 
                 connectApi().postData(url: LOGIN, data: data).then((value) async {
                   token = value.data['access_token'];
+                  setSign();
+                  Fluttertoast.showToast(
+                      msg: 'تسجيل دخول ناجح',
+                      backgroundColor: CustomColor.MainColor,
+                  textColor: Colors.white);
                   return Navigator.pushReplacement(
                   context,
                   PageTransition(
@@ -231,7 +277,10 @@ initState()  {
                     child: MainScreen(page: 2,),
                   ),
                 );
-                }).catchError((e)=>print(e));
+                }).catchError((e)=>Fluttertoast.showToast(
+                    msg: 'فشل تسجيل الدخول يرجى اعاده المحاوله',
+                    backgroundColor: CustomColor.MainColor,
+                    textColor: Colors.white));
                 // connectApi().getData(url: LOGOUT, query: data).then((value) => print('succedded  $value')).catchError((e)=>print(e));
 
                 // var res = await Network().authData(data, '/login');

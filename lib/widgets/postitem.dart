@@ -1,3 +1,5 @@
+import 'package:filmatam/widgets/textformfield.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:like_button/like_button.dart';
@@ -9,7 +11,8 @@ class PostItem extends StatefulWidget {
           String name;
           String photo;
           String description;
-          List<String> photos;
+          // List<String> photos;
+          String photos;
           String date;
           int likes;
           int comments;
@@ -38,8 +41,43 @@ class PostItem extends StatefulWidget {
   State<PostItem> createState() => _PostItemState();
 }
 
-class _PostItemState extends State<PostItem> {
+class _PostItemState extends State<PostItem>with SingleTickerProviderStateMixin {
 
+  late Widget child;
+  late bool expand;
+  late AnimationController expandController;
+  late Animation<double> animation;
+
+  double animatedheight = 0.0;
+
+  var CommentKey= GlobalKey<FormState>();
+
+  late String CommentStr;
+  ///Setting up the animation
+  void prepareAnimations() {
+    expandController = AnimationController(
+        vsync: this,
+        duration: Duration(milliseconds: 500)
+    );
+    animation = CurvedAnimation(
+      parent: expandController,
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  void _runExpandCheck() {
+    if(widget.commentsshow) {
+      expandController.forward();
+    }
+    else {
+      expandController.reverse();
+    }
+  }
+  @override
+  void initState() {
+    prepareAnimations();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +110,8 @@ class _PostItemState extends State<PostItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(widget.name),
-                      Text(widget.date),
+                      Text(widget.date,
+                      textDirection: TextDirection.ltr,),
                     ],
                   ),
                 ),
@@ -144,7 +183,7 @@ class _PostItemState extends State<PostItem> {
 
           ///////////////////////////////////////////////
           ImageSlider(
-            postindex: widget.index,
+            postindex: widget.index, photos: widget.photos,
           ),
           // Image.asset(posts[index].imageurl,
           //   fit: BoxFit.cover,),
@@ -170,6 +209,44 @@ class _PostItemState extends State<PostItem> {
           Divider(
             height: double.minPositive,
           ),
+
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Visibility(
+          //     visible: true,
+          //     child: ))
+          //         Expanded(
+          //           child: ListView.builder(itemBuilder: (context, index) => Row(
+          //             children: [
+          //               CircleAvatar(backgroundImage: AssetImage(widget.photo),radius: 20,),
+          //               SizedBox(width: 10,),
+          //               Expanded(
+          //                 child: TextFormField(
+          //                   keyboardType: TextInputType.multiline,
+          //                   readOnly: true,
+          //                   decoration: InputDecoration(
+          //
+          //                     filled: true,
+          //                     fillColor: Colors.grey.shade200,
+          //                     enabledBorder: OutlineInputBorder(
+          //                       borderSide: BorderSide(color: Colors.transparent),
+          //                       borderRadius: BorderRadius.circular(15.0),
+          //                     ),
+          //                     labelText: widget.description,                                  suffixIcon: Icon(Icons.heart_broken),
+          //                   ),
+          //                   maxLines:null ,
+          //                 ),
+          //               ),
+          //
+          //
+          //             ],
+          //           )),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -184,35 +261,38 @@ class _PostItemState extends State<PostItem> {
                   //     color: widget.liked ? CustomColor.MainColor : Colors
                   //         .grey,),
                   //   splashColor: Colors.transparent,),
-                 LikeButton(
-                   likeBuilder: (bool lik ){
-                     return SvgPicture.asset('assets/SVG/heartfilled.svg'
-                       ,width: 10,height:10,color: lik?CustomColor.MainColor:Colors.grey,
-                     );
-                   },
-                   isLiked: widget.liked,
-                   size: 25,
-                   // onTap: onlike,
-                   likeCount: widget.likes,
+                  LikeButton(
+                    likeBuilder: (bool lik ){
+                      return SvgPicture.asset('assets/SVG/heartfilled.svg'
+                        ,width: 10,height:10,color: lik?CustomColor.MainColor:Colors.grey,
+                      );
+                    },
+                    isLiked: widget.liked,
+                    size: 25,
+                    // onTap: onlike,
+                    likeCount: widget.likes,
 
-                   circleColor: CircleColor(start: CustomColor.MainColor, end: CustomColor.MainColor),
-                 bubblesColor: BubblesColor(dotSecondaryColor: CustomColor.SecondaryColor, dotPrimaryColor: CustomColor.MainColor),
-                 ),
+                    circleColor: CircleColor(start: CustomColor.MainColor, end: CustomColor.MainColor),
+                    bubblesColor: BubblesColor(dotSecondaryColor: CustomColor.SecondaryColor, dotPrimaryColor: CustomColor.MainColor),
+                  ),
                   // Text("${widget.likes}"),
                 ],
               ),
               Row(
                 children: [
                   /* InkWell(
-              onTap: null,
-                    child:
-                      Image.asset('assets/icons/chat.png',
-                      scale: 25,),),
-                      SizedBox(width: 5,),*/
+                  onTap: null,
+                        child:
+                          Image.asset('assets/icons/chat.png',
+                          scale: 25,),),
+                          SizedBox(width: 5,),*/
                   IconButton(
                       onPressed: () {
                         setState(() {
+                          animatedheight!=0?animatedheight=0:animatedheight=100;
                           widget.commentsshow = !widget.commentsshow;
+                          print(widget.commentsshow);
+                          _runExpandCheck();
                         });
                       },
                       icon: Icon(Icons.mode_comment_outlined,color: Colors.black54.withOpacity(0.4),)),
@@ -222,69 +302,187 @@ class _PostItemState extends State<PostItem> {
               IconButton(onPressed: null, icon: Icon(Icons.share)),
             ],
           ),
+
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(10),
+
             child: Visibility(
-              visible: false,
+              visible: widget.commentsshow,
               child: Column(
-                children: [
-                  Divider(height: 10,),
-                  Row(
-                    children: [
-                      CircleAvatar(backgroundImage: AssetImage(widget.photo),radius: 20,),
-                      SizedBox(width: 10,),
-                      Expanded(
-                        child: TextFormField(
-                          controller: widget.CommentController,
-                          keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(
-                              suffixIcon: IconButton(  icon: Icon(Icons.arrow_forward), onPressed: () {  },),
-                              filled: true,
-                              fillColor: Colors.grey.shade200,
+                  children: [
+                    Divider(height: 10,),
+                    Container(
+                      height: 200,
+                      child: ListView.builder(itemBuilder: (context, index) => Row(
+                        children: [
+                          CircleAvatar(backgroundImage: AssetImage(widget.photo),radius: 20,),
+                          SizedBox(width: 10,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
 
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(15.0),)
 
+                              Container(
+                                width: MediaQuery.of(context).size.width*0.78,
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                    border: Border.all(color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(15.0),),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('الاسم',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20
+                                    ),),
+                                    Text('تفاصيل',style: TextStyle(fontSize: 20),softWrap: true,)
+                                  ],
+                                ),
+
+                              ),
+                              Row(children: [
+                                InkWell(child: Text('أحببته'),onTap: (){
+
+                                },),
+                                SizedBox(width: 10,),
+
+                                Text('الوقت'),
+                              ],),
+                            ],
                           ),
-                          validator: (string){
 
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: ListView.builder(itemBuilder: (context, index) => Row(
+                        ],
+                      ),itemCount: 3,),
+                    ),
+                    Row(
                       children: [
                         CircleAvatar(backgroundImage: AssetImage(widget.photo),radius: 20,),
                         SizedBox(width: 10,),
                         Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            readOnly: true,
-                            decoration: InputDecoration(
+                          child: Form(
+                            key: CommentKey,
+                            child: TextFormField(
+                              controller: widget.CommentController,
+                              keyboardType: TextInputType.multiline,
+                              decoration: InputDecoration(
+                                  suffixIcon: IconButton(  icon: Icon(Icons.arrow_forward_ios), onPressed: () {
+                                    if(CommentKey.currentState!.validate()){
+                                      CommentStr = widget.CommentController.text;
+                                    }
+                                  },),
+                                  filled: true,
+                                  fillColor: Colors.grey.shade200,
+                                  hintText: 'اكتب تعليقاً..',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(15.0),),
 
-                              filled: true,
-                              fillColor: Colors.grey.shade200,
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(15.0),
                               ),
-                              labelText: widget.description,                                  suffixIcon: Icon(Icons.heart_broken),
+                              maxLines: null,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'حقل الاسم فارغاً';
+                                }
+                                return null;
+                              },
                             ),
-                            maxLines:null ,
                           ),
                         ),
-
-
                       ],
-                    )),
-                  )
-                ],
-              ),
+                    ),]),
             ),
           ),
+    //       ExpansionPanelList(children: [
+    //         ExpansionPanel(headerBuilder: (context,ex)=>Row(
+    //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //           children: [
+    //             Row(
+    //               children: [
+    //                 // IconButton(onPressed: () {
+    //                 //   setState(() {
+    //                 //     widget.liked = !widget.liked;
+    //                 //   });
+    //                 // },
+    //                 //   icon: Icon(Icons.thumb_up,
+    //                 //     color: widget.liked ? CustomColor.MainColor : Colors
+    //                 //         .grey,),
+    //                 //   splashColor: Colors.transparent,),
+    //                 LikeButton(
+    //                   likeBuilder: (bool lik ){
+    //                     return SvgPicture.asset('assets/SVG/heartfilled.svg'
+    //                       ,width: 10,height:10,color: lik?CustomColor.MainColor:Colors.grey,
+    //                     );
+    //                   },
+    //                   isLiked: widget.liked,
+    //                   size: 25,
+    //                   // onTap: onlike,
+    //                   likeCount: widget.likes,
+    //
+    //                   circleColor: CircleColor(start: CustomColor.MainColor, end: CustomColor.MainColor),
+    //                   bubblesColor: BubblesColor(dotSecondaryColor: CustomColor.SecondaryColor, dotPrimaryColor: CustomColor.MainColor),
+    //                 ),
+    //                 // Text("${widget.likes}"),
+    //               ],
+    //             ),
+    //             Row(
+    //               children: [
+    //                 /* InkWell(
+    //           onTap: null,
+    //                 child:
+    //                   Image.asset('assets/icons/chat.png',
+    //                   scale: 25,),),
+    //                   SizedBox(width: 5,),*/
+    //                 IconButton(
+    //                     onPressed: () {
+    //                       setState(() {
+    //                         widget.commentsshow = !ex;
+    //                       });
+    //                     },
+    //                     icon: Icon(Icons.mode_comment_outlined,color: Colors.black54.withOpacity(0.4),)),
+    //                 Text("${widget.comments}"),
+    //               ],
+    //             ),
+    //             IconButton(onPressed: null, icon: Icon(Icons.share)),
+    //           ],
+    //         ), body: Container(
+    //           padding: EdgeInsets.all(10),
+    //           child: Column(
+    //               children: [
+    //                 Divider(height: 10,),
+    //                 Row(
+    //                   children: [
+    //                     CircleAvatar(backgroundImage: AssetImage(widget.photo),radius: 20,),
+    //                     SizedBox(width: 10,),
+    //                     Expanded(
+    //                       child: TextFormField(
+    //                         controller: widget.CommentController,
+    //                         keyboardType: TextInputType.multiline,
+    //                         decoration: InputDecoration(
+    //                             suffixIcon: IconButton(  icon: Icon(Icons.arrow_forward), onPressed: () {  },),
+    //                             filled: true,
+    //                             fillColor: Colors.grey.shade200,
+    //
+    //                             enabledBorder: OutlineInputBorder(
+    //                               borderSide: BorderSide(color: Colors.transparent),
+    //                               borderRadius: BorderRadius.circular(15.0),)
+    //
+    //                         ),
+    //                         validator: (string){
+    //
+    //                         },
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),]),
+    //         ),isExpanded:widget.commentsshow ,)
+    //       ],expansionCallback:(ind,exp){
+    //         print(exp);
+    //         print(ind);
+    //
+    // },animationDuration: Duration(milliseconds: 100),),
           // if(commentsshow)  Column(
           //   children: [
           //     Expanded(child: Text("Go")),
@@ -345,6 +543,36 @@ class _PostItemState extends State<PostItem> {
           //     ),
           //   ],
           // ),
+
+          // Column(
+          //     children: [
+          //       Divider(height: 10,),
+          //       Row(
+          //         children: [
+          //           CircleAvatar(backgroundImage: AssetImage(widget.photo),radius: 20,),
+          //           SizedBox(width: 10,),
+          //           Expanded(
+          //             child: TextFormField(
+          //               controller: widget.CommentController,
+          //               keyboardType: TextInputType.multiline,
+          //               decoration: InputDecoration(
+          //                   suffixIcon: IconButton(  icon: Icon(Icons.arrow_forward), onPressed: () {  },),
+          //                   filled: true,
+          //                   fillColor: Colors.grey.shade200,
+          //
+          //                   enabledBorder: OutlineInputBorder(
+          //                     borderSide: BorderSide(color: Colors.transparent),
+          //                     borderRadius: BorderRadius.circular(15.0),)
+          //
+          //               ),
+          //               validator: (string){
+          //
+          //               },
+          //             ),
+          //           ),
+          //         ],
+          //       ),])
+         
         ],
       ),
     );

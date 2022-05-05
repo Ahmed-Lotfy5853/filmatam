@@ -10,8 +10,8 @@ class RestaurantItem extends StatefulWidget {
   late String ImageLogo;
   late String restaurantdescription;
   Map<String, List<String>> Branches;
-  double rate = 2.5;
-  int personreviews = 0;
+  String rate ;
+  String personreviews;
 
   RestaurantItem(
       {
@@ -65,7 +65,7 @@ class _RestaurantItemState extends State<RestaurantItem> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
-                  child: Image.asset(
+                  child: Image.network(
                     widget.ImageLogo,
                     width: double.infinity,
                   ),
@@ -115,7 +115,7 @@ class _RestaurantItemState extends State<RestaurantItem> {
                         softWrap: true,
                       ),
                       RatingBarIndicator(
-                        rating: widget.rate,
+                        rating: double.parse(widget.rate),
                         itemBuilder: (context, index) =>
                             Icon(
                               Icons.star,
