@@ -50,10 +50,10 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return Posts.isEmpty?LinearProgressIndicator():ListView.builder(
       itemBuilder: (ctx, index) {
         // print(Posts[index]['video'].split());
-        return PostItem(photo: Accounts[index].Photo,name:Accounts[index].Name,date: Posts[index]['time_ago'],description: Posts[index]['description'],photos: Posts[index]['video'],likes: Posts[index]['likes'],comments: Posts[index]['comments'],index: index,);
+        return PostItem(photo: Accounts[index].Photo,name:Posts[index]['user']['name'],date: Posts[index]['time_ago'],description: Posts[index]['description'],photos: Posts[index]['video'],likes: Posts[index]['likes'],comments: Posts[index]['comments'],index: index,);
       },
       itemCount: Posts.length,
     );

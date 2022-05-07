@@ -7,6 +7,7 @@ import 'package:like_button/like_button.dart';
 import '../customcolor.dart';
 import 'imageslider.dart';
 
+
 class PostItem extends StatefulWidget {
           String name;
           String photo;
@@ -21,7 +22,9 @@ class PostItem extends StatefulWidget {
           bool  followed = false;
           bool  visible = true;
           bool  commentsshow = false;
+          bool comment_visible = false;
           TextEditingController CommentController = TextEditingController();
+
 
           PostItem(
               {
@@ -54,6 +57,7 @@ class _PostItemState extends State<PostItem>with SingleTickerProviderStateMixin 
 
   late String CommentStr;
   ///Setting up the animation
+
   void prepareAnimations() {
     expandController = AnimationController(
         vsync: this,
@@ -265,12 +269,15 @@ class _PostItemState extends State<PostItem>with SingleTickerProviderStateMixin 
                     likeBuilder: (bool lik ){
                       return SvgPicture.asset('assets/SVG/heartfilled.svg'
                         ,width: 10,height:10,color: lik?CustomColor.MainColor:Colors.grey,
+                        
                       );
                     },
                     isLiked: widget.liked,
                     size: 25,
                     // onTap: onlike,
                     likeCount: widget.likes,
+                    likeCountPadding: EdgeInsets.only(right: 10),
+
 
                     circleColor: CircleColor(start: CustomColor.MainColor, end: CustomColor.MainColor),
                     bubblesColor: BubblesColor(dotSecondaryColor: CustomColor.SecondaryColor, dotPrimaryColor: CustomColor.MainColor),
@@ -296,7 +303,7 @@ class _PostItemState extends State<PostItem>with SingleTickerProviderStateMixin 
                         });
                       },
                       icon: Icon(Icons.mode_comment_outlined,color: Colors.black54.withOpacity(0.4),)),
-                  Text("${widget.comments}"),
+                  Visibility(visible:widget.comments == null ||widget.comments == 0 ? false:true ,child: Text("${widget.comments}",style: TextStyle(color: Colors.grey),)),
                 ],
               ),
               IconButton(onPressed: null, icon: Icon(Icons.share)),

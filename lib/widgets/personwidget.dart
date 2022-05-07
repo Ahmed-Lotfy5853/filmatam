@@ -72,6 +72,11 @@ class _PersonWidgetState extends State<PersonWidget> {
       setState(() {
         person.Name = value.data['name'];
         person.email = value.data['email'];
+        person.Following = value.data['following'];
+        person.Followers = value.data['followers'];
+        person.Tested_meals = value.data['tested_meals'];
+        person.Location = value.data['city']??'القاهره';
+        print(person.Location);
         // person.Name = value.data['name'];
         // person.Name = value.data['name'];
       });
@@ -92,7 +97,7 @@ class _PersonWidgetState extends State<PersonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Flex(
+    return ((person.Name==null||person.Tested_meals==null||person.Followers==null||person.Following==null))?LinearProgressIndicator():Flex(
       direction: Axis.vertical,
       children: [
         Expanded(
@@ -105,7 +110,7 @@ class _PersonWidgetState extends State<PersonWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   InkWell(
-                      // splashColor: Colors.transparent,
+                    // splashColor: Colors.transparent,
                       onTap: () {
                         var alert = AlertDialog(
                           title: Text("اختر صورة :"),
@@ -155,28 +160,28 @@ class _PersonWidgetState extends State<PersonWidget> {
                       child: ClipOval(
                         child: widget._Image == null
                             ? Image.asset(
-                                Accounts[0].Photo,
-                                width: 120,
-                                height: 120,
-                                fit: BoxFit.cover,
-                              )
+                          Accounts[0].Photo,
+                          width: 120,
+                          height: 120,
+                          fit: BoxFit.cover,
+                        )
                             : Image.file(
-                                widget._Image!,
-                                width: 160,
-                                height: 160,
-                                fit: BoxFit.cover,
-                              ),
+                          widget._Image!,
+                          width: 160,
+                          height: 160,
+                          fit: BoxFit.cover,
+                        ),
                       )
-                      // CircleAvatar(
-                      //   radius: 53,
-                      //   backgroundColor: Colors.white,
-                      //   child: CircleAvatar(
-                      //     radius: 50,
-                      //     backgroundImage:
-                      //     AssetImage(Accounts[0].Photo),
-                      //   ),
-                      // ),
-                      ),
+                    // CircleAvatar(
+                    //   radius: 53,
+                    //   backgroundColor: Colors.white,
+                    //   child: CircleAvatar(
+                    //     radius: 50,
+                    //     backgroundImage:
+                    //     AssetImage(Accounts[0].Photo),
+                    //   ),
+                    // ),
+                  ),
                   TextFormField(
                     controller: NameController,
                     keyboardType: TextInputType.name,
@@ -224,17 +229,17 @@ class _PersonWidgetState extends State<PersonWidget> {
                               Icons.location_on_outlined,
                               color: Colors.grey,
                             ),
-                            hintText: person.email,
+                            hintText: person.Location,
                             border: InputBorder.none,
                             hintStyle:
-                                TextStyle(fontSize: 25, color: Colors.grey)
-                            // contentPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/3),
+                            TextStyle(fontSize: 25, color: Colors.grey)
+                          // contentPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/3),
 
-                            ),
+                        ),
                         onFieldSubmitted: (string) {
                           setState(() {
                             if (!(string.isEmpty)) {
-                              Accounts[0].Location = string;
+                              person.Location = string;
                             }
                           });
                         },
@@ -267,7 +272,7 @@ class _PersonWidgetState extends State<PersonWidget> {
                       Column(
                         children: [
                           Text(
-                            '${Accounts[0].followers}',
+                            '${person.Followers}',
                             style: TextStyle(
                               color: CustomColor.MainColor,
                               fontSize: 30,
@@ -282,7 +287,7 @@ class _PersonWidgetState extends State<PersonWidget> {
                       Column(
                         children: [
                           Text(
-                            '${Accounts[0].following}',
+                            '${person.Following}',
                             style: TextStyle(
                               color: CustomColor.MainColor,
                               fontSize: 30,
@@ -297,7 +302,7 @@ class _PersonWidgetState extends State<PersonWidget> {
                       Column(
                         children: [
                           Text(
-                            '${Accounts[0].TastedMeals}',
+                            '${person.Tested_meals}',
                             style: TextStyle(
                               color: CustomColor.MainColor,
                               fontSize: 30,
@@ -327,46 +332,57 @@ color: Colors.red,),
                           color: Colors.red,),
                       ])*/
 
-                  Text(
-                    'المفضله',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w200),
+                  Align(
+                    alignment: Alignment.centerRight,
+
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text(
+                        'المفضله',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w200),
+                      ),
+                    ),
                   ),
+
                 ]),
           ),
         ),
-        Flexible(
-          child: GridView(
-            // physics: NeverScrollableScrollPhysics(),
-            //  shrinkWrap: true,
-            padding: EdgeInsets.all(23),
+        Visibility(
+            visible: true,
+            child: Flexible(
+              child: GridView(
+                // physics: NeverScrollableScrollPhysics(),
+                //  shrinkWrap: true,
+                padding: EdgeInsets.all(23),
 
-            children: /* Restaurants.asMap().entries.map((RestaurantData){
+                children: /* Restaurants.asMap().entries.map((RestaurantData){
                                int index = RestaurantData.key;
                               print(index);
                              */
                 wishlist.map((
-              RestaurantData,
-            ) {
-              return RestaurantItem(
-                Name: RestaurantData.Name,
-                rate: RestaurantData.rate,
-                ImageLogo: RestaurantData.ImageLogo,
-                personreviews: RestaurantData.personreviews,
-                restaurantdescription: RestaurantData.restaurantdescription,
-                Branches: RestaurantData.branches,
-              );
-            }).toList(),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 165,
-              childAspectRatio: 0.65,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
-            ),
-          ),
-        ),
+                    RestaurantData,
+                    ) {
+                  return RestaurantItem(
+                    Name: RestaurantData.Name,
+                    rate: RestaurantData.rate,
+                    ImageLogo: RestaurantData.ImageLogo,
+                    personreviews: RestaurantData.personreviews,
+                    restaurantdescription: RestaurantData.restaurantdescription,
+                    Branches: RestaurantData.branches,
+                  );
+                }).toList(),
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 165,
+                  childAspectRatio: 0.65,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                ),
+              ),
+            ),),
+
       ],
     );
   }

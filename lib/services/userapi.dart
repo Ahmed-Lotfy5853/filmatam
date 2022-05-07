@@ -135,4 +135,6 @@ const CITY  = 'cities';
 const RESTAURANTS  = 'restaurants';
 const WISHLIST  = 'wishlists';
 const POSTS  = 'posts';
+const CATEGORY  = 'categories';
+// const MEALS  = 'meals';
 

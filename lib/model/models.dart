@@ -5,6 +5,10 @@ String token;
 class user {
   final String id;
     String Name;
+    String Following;
+    String Followers;
+    String Tested_meals;
+    String Location;
   final String type;
    String email;
   final String mobile;
@@ -13,6 +17,10 @@ class user {
   user({
     @required this.id,
     @required this.Name,
+    @required this.Following,
+    @required this.Followers,
+    @required this.Tested_meals,
+    @required this.Location,
     @required this.type,
     @required this.email,
     @required this.mobile,
@@ -26,7 +34,7 @@ class user {
   Map<String, dynamic> jsonData
 
   ){
-    return user(id: jsonData['id'], Name: jsonData['name'], type: jsonData['type'] , email: jsonData['email'], mobile: jsonData['mobile'], password: jsonData['password']);
+    return user(id: jsonData['id'], Name: jsonData['name'],Tested_meals:jsonData['tested_meals'],Location:jsonData['city'],Following: jsonData['following'],Followers: jsonData['followers'], type: jsonData['type'] , email: jsonData['email'], mobile: jsonData['mobile'], password: jsonData['password']);
   }
 }
 
@@ -188,6 +196,8 @@ class Meal {
     @required this.Price});
 }
 List<dynamic> Restaurants = [];
+List<dynamic> Caategory = [];
+List<dynamic> Meaals = [];
 
 
 /*List<Restaurant> Restaurants = [

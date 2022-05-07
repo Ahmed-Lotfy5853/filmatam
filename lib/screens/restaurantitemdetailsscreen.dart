@@ -117,11 +117,15 @@ class _RestaurantItemDetailsScreenState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.name,
-                    style: TextStyle(color: CustomColor.MainColor,
-                        fontSize: 36,
-                        fontWeight: FontWeight.w800),
+                  Container(
+                    width: 200,
+                    child: Text(
+                      widget.name,
+                      softWrap: true,
+                      style: TextStyle(color: CustomColor.MainColor,
+                          fontSize: 36,
+                          fontWeight: FontWeight.w800),
+                    ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,

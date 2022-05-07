@@ -2,64 +2,131 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:filmatam/customcolor.dart';
 import 'package:filmatam/main.dart';
 import 'package:filmatam/widgets/imageslider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../model/models.dart';
 import '../screens/mainscreen.dart';
 import 'mealitem.dart';
 import 'restaurantitem.dart';
+import '../services/userapi.dart';
 
-class MealsWidget extends StatelessWidget {
-  TextEditingController SearchController = TextEditingController();
+class MealsWidget extends StatefulWidget {
 
   MealsWidget({Key? key}) : super(key: key);
 
   @override
+  State<MealsWidget> createState() => _MealsWidgetState();
+}
+
+class _MealsWidgetState extends State<MealsWidget> {
+  TextEditingController SearchController = TextEditingController();
+
+  List search_result=[];
+
+  bool re = false;
+
+  List<String>  Filter = ['restaurant_name','rate'];
+
+  var searchkey =    GlobalKey<FormState>();
+
+  String FilterSelection = 'restaurant_name';
+
+  void search({required String filter,required String search_keyword}){
+    setState(() {
+      re = true;
+    });
+    search_result = Restaurants.where((element) => element['$filter']== search_keyword).toList();
+// if(search_result == []) {
+//       setState(() {
+//         search_result = [-1];
+//       });
+//     }
+    print(search_result);
+  }
+  @override
+  void initState() {
+    connectApi.init();
+    connectApi()
+          .getData(url: CATEGORY, query: data, token: token)
+        .then((value) async {
+
+      // print(Cities);
+      setState(() {
+        Caategory = value.data;
+        print(Caategory);
+        // value.data.forEach((e)=>Cities.add(e['name_ar']));
+        // person.Name = value.data['name'];
+        // person.Name = value.data['name'];
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
+    return Restaurants.isEmpty?LinearProgressIndicator():Container(
       width: double.infinity,
       // padding: EdgeInsets.symmetric(horizontal: 25),
       child: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
-            child: TextFormField(
-              controller: SearchController,
-              keyboardType: TextInputType.text,
-              style: TextStyle(
-                fontSize: 25,
+            child: Form(
+              key: searchkey,
+              child: TextFormField(
+                controller: SearchController,
+                keyboardType: TextInputType.text,
+                style: TextStyle(
+                  fontSize: 25,
+                ),
+                decoration: InputDecoration(
+                    hintText: 'جد وجبه',
+                    hintStyle: TextStyle(fontSize: 25),
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: IconButton(
+                        icon: Icon(Icons.search),
+                        iconSize: 30,
+                        color: Colors.red,
+                        splashColor: Colors.transparent,
+                        splashRadius: 20,
+                        onPressed: () {
+                          setState(() {
+                            if(searchkey.currentState!.validate()){
+                              search(search_keyword: SearchController.text,filter: FilterSelection);
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                    suffixIconColor: CustomColor.MainColor,
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(top: 20.0,left: 20,bottom: 20),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<dynamic>(
+
+                          // value: FilterSelection,
+                            icon: Icon(Icons.filter_list,size:30,color:CustomColor.MainColor),
+                            items: Filter.map((e) {
+                              return DropdownMenuItem(
+                                  value: e,
+                                  child: Text(e));
+                            }).toList(),
+                            onChanged: (val) {
+                              setState(() {
+                                FilterSelection = val!;
+                              });
+                            }),
+                      ),
+                    ),
+                    prefixIconColor: CustomColor.MainColor,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black12),
+                    )),
+                validator: (str) {},
               ),
-              decoration: InputDecoration(
-                  hintText: 'جد وجبه',
-                  hintStyle: TextStyle(fontSize: 25),
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: IconButton(
-                      icon: Icon(Icons.search),
-                      iconSize: 30,
-                      color: Colors.red,
-                      splashColor: Colors.transparent,
-                      splashRadius: 20,
-                      onPressed: () {},
-                    ),
-                  ),
-                  suffixIconColor: CustomColor.MainColor,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: IconButton(
-                      icon: Icon(Icons.filter_list),
-                      iconSize: 30,
-                      color: Colors.red,
-                      splashColor: Colors.transparent,
-                      splashRadius: 20,
-                      onPressed: () {},
-                    ),
-                  ),
-                  prefixIconColor: CustomColor.MainColor,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black12),
-                  )),
-              validator: (str) {},
             ),
           ),
           Container(
@@ -90,14 +157,20 @@ class MealsWidget extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset(
-                        FoodCategories[index].ImageUrl,
-                        scale: 4,
-                        // cacheWidth: 448,
-                        // cacheHeight: 448,
+                      Container(
+                        // height: 120,
+
+                        constraints: BoxConstraints(maxHeight:120 ),
+                        child: Image.network(
+                          '${Caategory[index]['icon']}',
+                          // scale: 4,
+                           // cacheWidth: 500,
+                           // cacheHeight: 500,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       Text(
-                        FoodCategories[index].Name,
+                        Caategory[index]['name'],
                         style: TextStyle(
                           fontSize: 25,
                           // color: Colors.blackR
@@ -111,7 +184,7 @@ class MealsWidget extends StatelessWidget {
               separatorBuilder: (BuildContext context, int index) => SizedBox(
                 width: 20,
               ),
-              itemCount: FoodCategories.length,
+              itemCount: Caategory.length,
             ),
           ),
           Padding(
@@ -144,15 +217,15 @@ class MealsWidget extends StatelessWidget {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (_, int index) => MealItem(
-                Name: Meals[index].Name,
-                ImageLogo: Meals[index].ImageLogo,
-                rate: Meals[index].rate,
-                price: Meals[index].Price,
+                Name: Meals[index]['name'],
+                ImageLogo: Meaals[index].ImageLogo,
+                rate: Meaals[index].rate,
+                price: Meaals[index].Price,
               ),
               separatorBuilder: (BuildContext context, int index) => SizedBox(
                 width: 20,
               ),
-              itemCount: Meals.length,
+              itemCount: Meaals.length,
             ),
           ),
           Padding(
