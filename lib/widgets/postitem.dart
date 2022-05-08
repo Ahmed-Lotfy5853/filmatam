@@ -23,6 +23,7 @@ class PostItem extends StatefulWidget {
           bool  visible = true;
           bool  commentsshow = false;
           bool comment_visible = false;
+          List comment;
           TextEditingController CommentController = TextEditingController();
 
 
@@ -36,6 +37,7 @@ class PostItem extends StatefulWidget {
                 required  this.likes,
                 required  this.comments,
                 required  this.index,
+                required  this.comment,
 
               });
 
@@ -56,6 +58,8 @@ class _PostItemState extends State<PostItem>with SingleTickerProviderStateMixin 
   var CommentKey= GlobalKey<FormState>();
 
   late String CommentStr;
+  bool CommentReact = false;
+
   ///Setting up the animation
 
   void prepareAnimations() {
@@ -320,9 +324,11 @@ class _PostItemState extends State<PostItem>with SingleTickerProviderStateMixin 
                     Divider(height: 10,),
                     Container(
                       height: 200,
-                      child: ListView.builder(itemBuilder: (context, index) => Row(
+                      child: ListView.builder(itemBuilder: (context, index) {
+
+                        return Row(
                         children: [
-                          CircleAvatar(backgroundImage: AssetImage(widget.photo),radius: 20,),
+                          CircleAvatar(backgroundImage: NetworkImage(widget.comment[index]['user']!['profile']),radius: 20,),
                           SizedBox(width: 10,),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,30 +345,33 @@ class _PostItemState extends State<PostItem>with SingleTickerProviderStateMixin 
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('الاسم',
+                                    Text(widget.comment[index]['user']!['name'],
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20
                                     ),),
-                                    Text('تفاصيل',style: TextStyle(fontSize: 20),softWrap: true,)
+                                    Text(widget.comment[index]['comment'],style: TextStyle(fontSize: 20),softWrap: true,)
                                   ],
                                 ),
 
                               ),
                               Row(children: [
-                                InkWell(child: Text('أحببته'),onTap: (){
-
+                                InkWell(child: Text('أحببته',style: TextStyle(color: CommentReact ? CustomColor.MainColor:null),),onTap: (){
+setState(() {
+  CommentReact = !CommentReact;
+});
                                 },),
                                 SizedBox(width: 10,),
 
-                                Text('الوقت'),
+                                Text(widget.comment[index]['time_ago'],textDirection: TextDirection.ltr,),
                               ],),
                             ],
                           ),
 
                         ],
-                      ),itemCount: 3,),
+                      );
+                      },itemCount: widget.comment.length,),
                     ),
                     Row(
                       children: [

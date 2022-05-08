@@ -30,9 +30,11 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   var formKey = GlobalKey<FormState>();
   List<dynamic>Posts=[];
+  List Comments=[];
 
   @override
   void initState() {
+    connectApi.init();
     connectApi()
         .getData(url: POSTS, query: data, token: token)
         .then((value) async {
@@ -45,6 +47,16 @@ class _HomeWidgetState extends State<HomeWidget> {
         // person.Name = value.data['name'];
       });
     });
+    connectApi()
+        .getData(url: COMMENTS, query: data, token: token)
+        .then((value) async {
+setState(() {
+  Comments = value.data;
+print(Comments);
+});
+      // print(Cities);
+
+    });
     super.initState();
   }
 
@@ -53,7 +65,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Posts.isEmpty?LinearProgressIndicator():ListView.builder(
       itemBuilder: (ctx, index) {
         // print(Posts[index]['video'].split());
-        return PostItem(photo: Accounts[index].Photo,name:Posts[index]['user']['name'],date: Posts[index]['time_ago'],description: Posts[index]['description'],photos: Posts[index]['video'],likes: Posts[index]['likes'],comments: Posts[index]['comments'],index: index,);
+        return PostItem(photo: Accounts[index].Photo,name:Posts[index]['user']['name'],date: Posts[index]['time_ago'],description: Posts[index]['description'],photos: Posts[index]['video'],likes: Posts[index]['likes'],comments: Posts[index]['comments'],index: index, comment: Comments,);
       },
       itemCount: Posts.length,
     );

@@ -1,16 +1,18 @@
 //@dart=2.9
 import 'package:flutter/foundation.dart';
-Map<String,String> data;
+
+Map<String, String> data;
 String token;
+
 class user {
   final String id;
-    String Name;
-    String Following;
-    String Followers;
-    String Tested_meals;
-    String Location;
+  String Name;
+  String Following;
+  String Followers;
+  String Tested_meals;
+  String Location;
   final String type;
-   String email;
+  String email;
   final String mobile;
   final String password;
 
@@ -27,23 +29,29 @@ class user {
     @required this.password,
   });
 
-  factory user.fromJson
-
-  (
-
-  Map<String, dynamic> jsonData
-
-  ){
-    return user(id: jsonData['id'], Name: jsonData['name'],Tested_meals:jsonData['tested_meals'],Location:jsonData['city'],Following: jsonData['following'],Followers: jsonData['followers'], type: jsonData['type'] , email: jsonData['email'], mobile: jsonData['mobile'], password: jsonData['password']);
+  factory user.fromJson(Map<String, dynamic> jsonData) {
+    return user(
+        id: jsonData['id'],
+        Name: jsonData['name'],
+        Tested_meals: jsonData['tested_meals'],
+        Location: jsonData['city'],
+        Following: jsonData['following'],
+        Followers: jsonData['followers'],
+        type: jsonData['type'],
+        email: jsonData['email'],
+        mobile: jsonData['mobile'],
+        password: jsonData['password']);
   }
 }
 
-class users{
+class users {
   final List<dynamic> userList;
+
   users({this.userList});
-  factory users.fromJson(Map<String,dynamic> jsonData){
-    return  users(userList:
-      jsonData['userList'],
+
+  factory users.fromJson(Map<String, dynamic> jsonData) {
+    return users(
+      userList: jsonData['userList'],
       // user(
       //   id: jsonData['id'],
       //   Name: jsonData['Name'],
@@ -51,11 +59,10 @@ class users{
       //   email: jsonData['email'],
       //   mobile: jsonData['mobile'],
       //   password: jsonData['password']
-    // ),
+      // ),
     );
   }
 }
-
 
 class post {
   final String Name;
@@ -63,7 +70,7 @@ class post {
   final String date;
   final List<String> imageurl;
   final int likesnumber;
-  final int  commentsnumber;
+  final int commentsnumber;
 
   post({
     @required this.Name,
@@ -170,7 +177,8 @@ class Restaurant {
   double rate = 2.5;
   int personreviews = 0;
 
-  Restaurant({@required this.Name,
+  Restaurant({
+    @required this.Name,
     @required this.ImageLogo,
     @required this.restaurantdescription,
     @required this.RestaurantCategory,
@@ -186,19 +194,38 @@ class Meal {
   String Name;
   String ImageLogo;
   String MealCategory;
-  double rate = 2.5;
-  double Price;
+  String rate = '2.5';
+  String Price;
 
-  Meal({@required this.Name,
-    @required this.ImageLogo,
-    @required this.MealCategory,
-    @required this.rate,
-    @required this.Price});
+  Meal(
+      {@required this.Name,
+      @required this.ImageLogo,
+      @required this.MealCategory,
+      @required this.rate,
+      @required this.Price});
 }
+
 List<dynamic> Restaurants = [];
 List<dynamic> Caategory = [];
 List<dynamic> Meaals = [];
+List<dynamic> Meels = [];
+List<dynamic> Plates = [];
 
+class Meel {
+  String Name;
+  String ImageLogo;
+  String rate;
+  String price;
+  String itemCount;
+
+  Meel(
+      {
+        @required this.Name,
+       this.ImageLogo,
+       this.rate,
+       this.price,
+       this.itemCount});
+}
 
 /*List<Restaurant> Restaurants = [
   Restaurant(
@@ -283,62 +310,79 @@ List<Meal> Meals = [
   Meal(
     Name: 'محشي',
     ImageLogo: 'assets/dummy/meals/meal1.png',
-    Price: 50,
+    Price: '50',
     MealCategory: '',
-    rate: 4,),
+    rate: '4',
+  ),
   Meal(
     Name: 'بيتزا',
     ImageLogo: 'assets/dummy/meals/meal2.png',
-    Price: 75,
+    Price: '75',
     MealCategory: '',
-    rate: 2.9,),
+    rate: '2.9',
+  ),
   Meal(
     Name: 'كشري',
     ImageLogo: 'assets/dummy/meals/meal3.png',
-    Price: 20,
+    Price: '20',
     MealCategory: '',
-    rate: 3.5,),
+    rate: '3.5',
+  ),
   Meal(
     Name: 'مكرونه بشاميل',
     ImageLogo: 'assets/dummy/meals/meal4.png',
-    Price: 68,
+    Price: '68',
     MealCategory: '',
-    rate: 5,),
+    rate: '5',
+  ),
   Meal(
     Name: 'شاورما فراخ',
     ImageLogo: 'assets/dummy/meals/meal5.png',
-    Price: 35,
+    Price: '35',
     MealCategory: '',
-    rate: 4.8,),
+    rate: '4.8',
+  ),
   Meal(
     Name: 'ميكس جريل',
     ImageLogo: 'assets/dummy/meals/meal6.png',
-    Price: 90,
+    Price: '90',
     MealCategory: '',
-    rate: 1,),
+    rate: '1',
+  ),
 ];
-
 
 class FoodCategory {
   String Name;
   String ImageUrl;
 
-  FoodCategory({
-    @required this.Name,
-    @required this.ImageUrl
-  });
+  FoodCategory({@required this.Name, @required this.ImageUrl});
 }
 
 List<FoodCategory> FoodCategories = [
-  FoodCategory(Name: 'أكلات صحيه', ImageUrl: 'assets/foodcategory/diet.png',),
   FoodCategory(
-    Name: 'أكلات مصريه', ImageUrl: 'assets/foodcategory/flafel.png',),
-  FoodCategory(Name: 'أكلات بحريه', ImageUrl: 'assets/foodcategory/crab.png',),
-  FoodCategory(Name: 'أكلات مناسبه لمرضى الضغط',
-    ImageUrl: 'assets/foodcategory/healthy.png',),
-  FoodCategory(Name: 'فاكهه', ImageUrl: 'assets/foodcategory/fruit.png',),
+    Name: 'أكلات صحيه',
+    ImageUrl: 'assets/foodcategory/diet.png',
+  ),
   FoodCategory(
-    Name: 'أكلات سريعه', ImageUrl: 'assets/foodcategory/hamburger.png',),
+    Name: 'أكلات مصريه',
+    ImageUrl: 'assets/foodcategory/flafel.png',
+  ),
+  FoodCategory(
+    Name: 'أكلات بحريه',
+    ImageUrl: 'assets/foodcategory/crab.png',
+  ),
+  FoodCategory(
+    Name: 'أكلات مناسبه لمرضى الضغط',
+    ImageUrl: 'assets/foodcategory/healthy.png',
+  ),
+  FoodCategory(
+    Name: 'فاكهه',
+    ImageUrl: 'assets/foodcategory/fruit.png',
+  ),
+  FoodCategory(
+    Name: 'أكلات سريعه',
+    ImageUrl: 'assets/foodcategory/hamburger.png',
+  ),
 ];
 
 class Account {
@@ -350,80 +394,91 @@ class Account {
   int following;
   int TastedMeals;
 
-  Account({@required this.Name,
-    @required this.Photo,
-    @required this.Location,
-    @required this.FavoritesMeals,
-    @required this.followers,
-    @required this.following,
-    @required this.TastedMeals});
+  Account(
+      {@required this.Name,
+      @required this.Photo,
+      @required this.Location,
+      @required this.FavoritesMeals,
+      @required this.followers,
+      @required this.following,
+      @required this.TastedMeals});
 }
 
 List<Account> Accounts = [
-  Account(Name: 'محمد محمد',
+  Account(
+      Name: 'محمد محمد',
       Photo: 'assets/dummy/persons/person.png',
       Location: 'المحله الكبرى',
       FavoritesMeals: {'محشي': Meals[0], 'مكرونه بشاميل': Meals[1]},
       followers: 50,
       following: 5,
       TastedMeals: 520),
-  Account(Name: 'خالد محمود',
+  Account(
+      Name: 'خالد محمود',
       Photo: 'assets/dummy/persons/person2.png',
       Location: 'El Mahalla El Kubra',
       FavoritesMeals: {'محشي': Meals[0], 'مكرونه بشاميل': Meals[1]},
       followers: 50,
       following: 5,
       TastedMeals: 520),
-  Account(Name: 'مصطفى أحمد',
+  Account(
+      Name: 'مصطفى أحمد',
       Photo: 'assets/dummy/persons/person3.png',
       Location: 'El Mahalla El Kubra',
       FavoritesMeals: {'محشي': Meals[0], 'مكرونه بشاميل': Meals[1]},
       followers: 50,
       following: 5,
       TastedMeals: 520),
-  Account(Name: 'المختار محمد',
+  Account(
+      Name: 'المختار محمد',
       Photo: 'assets/dummy/persons/person4.png',
       Location: 'El Mahalla El Kubra',
       FavoritesMeals: {'محشي': Meals[0], 'مكرونه بشاميل': Meals[1]},
       followers: 50,
       following: 5,
       TastedMeals: 520),
-  Account(Name: 'هادي محمد',
+  Account(
+      Name: 'هادي محمد',
       Photo: 'assets/dummy/persons/person5.png',
       Location: 'El Mahalla El Kubra',
       FavoritesMeals: {'محشي': Meals[0], 'مكرونه بشاميل': Meals[1]},
       followers: 50,
       following: 5,
       TastedMeals: 520),
-  Account(Name: 'فادي محمد',
+  Account(
+      Name: 'فادي محمد',
       Photo: 'assets/dummy/persons/person6.png',
       Location: 'El Mahalla El Kubra',
       FavoritesMeals: {'محشي': Meals[0], 'مكرونه بشاميل': Meals[1]},
       followers: 50,
       following: 5,
       TastedMeals: 520),
-  Account(Name: 'مهند مصطفى',
+  Account(
+      Name: 'مهند مصطفى',
       Photo: 'assets/dummy/persons/person6.png',
       Location: 'El Mahalla El Kubra',
       FavoritesMeals: {'محشي': Meals[0], 'مكرونه بشاميل': Meals[1]},
       followers: 50,
       following: 5,
       TastedMeals: 520),
-  Account(Name: 'إياد مصطفى',
+  Account(
+      Name: 'إياد مصطفى',
       Photo: 'assets/dummy/persons/person6.png',
       Location: 'El Mahalla El Kubra',
       FavoritesMeals: {'محشي': Meals[0], 'مكرونه بشاميل': Meals[1]},
       followers: 50,
       following: 5,
       TastedMeals: 520),
-  Account(Name: 'أحمد عماد',
+  Account(
+      Name: 'أحمد عماد',
       Photo: 'assets/dummy/persons/person6.png',
       Location: 'El Mahalla El Kubra',
       FavoritesMeals: {'محشي': Meals[0], 'مكرونه بشاميل': Meals[1]},
       followers: 50,
       following: 5,
       TastedMeals: 520),
-  Account(Name: 'مهند لاشين',
+  Account(
+      Name: 'مهند لاشين',
       Photo: 'assets/dummy/persons/person6.png',
       Location: 'El Mahalla El Kubra',
       FavoritesMeals: {'محشي': Meals[0], 'مكرونه بشاميل': Meals[1]},
@@ -431,7 +486,6 @@ List<Account> Accounts = [
       following: 5,
       TastedMeals: 520),
 ];
-
 
 class Order {
   String ImagePhoto;
@@ -459,16 +513,14 @@ class Order {
     @required this.MealItemNumber,
   });
 
-  double sum({double MealItemNumber = 0, double MealItemPrice = 0 }) {
+  double sum({double MealItemNumber = 0, double MealItemPrice = 0}) {
     return this.MealPrice = MealItemPrice * MealItemNumber;
   }
-
-
 }
 
-
 List<Order> Orders = [
-  Order(MealItemPrice: 50,
+  Order(
+      MealItemPrice: 50,
       MealSize: 'وسط',
       ImagePhoto: 'assets/dummy/meals/meal1.png',
       BranchName: 'الدقي',
@@ -476,21 +528,24 @@ List<Order> Orders = [
       MealName: 'محشي',
       MealItemNumber: 2,
       FinalMealPrice: 25),
-  Order(MealItemPrice: 20,
+  Order(
+      MealItemPrice: 20,
       MealSize: 'صغير',
       ImagePhoto: 'assets/dummy/meals/fahita.png',
       BranchName: 'الزمالك',
       RestaurantName: 'أبو عمار',
       MealName: 'فاهيتا فراخ',
       MealItemNumber: 8),
-  Order(MealItemPrice: 80,
+  Order(
+      MealItemPrice: 80,
       MealSize: 'كبير',
       ImagePhoto: 'assets/dummy/meals/mixgrill.png',
       BranchName: 'الجزيره',
       RestaurantName: 'الدهان',
       MealName: 'ميكس جريل',
       MealItemNumber: 3),
-  Order(MealItemPrice: 150,
+  Order(
+      MealItemPrice: 150,
       MealSize: 'عائلي',
       ImagePhoto: 'assets/dummy/meals/km.png',
       BranchName: 'المهندسين',

@@ -11,10 +11,10 @@ import 'package:widget_mask/widget_mask.dart';
 import '../customcolor.dart';
 
 class MealItem extends StatefulWidget {
-  late String Name;
-  late String ImageLogo;
-  double rate = 2.5;
-  double price;
+   String Name = '';
+   String ImageLogo = '';
+  String rate = '2.5';
+  String price;
 
   MealItem(
       {required this.Name,
@@ -44,6 +44,7 @@ class _MealItemState extends State<MealItem> {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
+        // width: 220,
         // padding: EdgeInsets.only(top: 10, right: 5, left: 5),
         decoration: BoxDecoration(
             color: Colors.white,
@@ -69,7 +70,7 @@ class _MealItemState extends State<MealItem> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
-                  child: Image.asset(
+                  child: Image.network(
                     widget.ImageLogo,
                     width: 300,
                     height: 170,
@@ -134,13 +135,13 @@ class _MealItemState extends State<MealItem> {
 
 
                               RatingBarIndicator(
-                                rating: widget.rate,
+                                rating: double.parse(widget.rate),
                                 itemBuilder: (context, index) => Icon(
                                   Icons.star,
                                   color: Colors.amber,
                                 ),
                                 itemCount: 5,
-                                itemSize: 20.0,
+                                itemSize: 15.0,
                                 direction: Axis.horizontal,
                               ),
                               SizedBox(

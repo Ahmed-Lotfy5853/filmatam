@@ -36,7 +36,8 @@ class _RestaurantWidgetState extends State<RestaurantWidget> {
         // person.Name = value.data['name'];
         // person.Name = value.data['name'];
       });
-    });    super.initState();
+    });
+    super.initState();
   }
 
   List search_result=[];
@@ -146,7 +147,8 @@ search_result = Restaurants.where((element) => element['$filter']== search_keywo
 
             Visibility(
               visible: (search_result.isNotEmpty && re) ,
-              child: ( Expanded(
+              child: (
+                  Expanded(
                 child: GridView(
                   padding: EdgeInsets.all(23),
 

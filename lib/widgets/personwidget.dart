@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../model/models.dart';
 import '../services/userapi.dart';
+import 'mealitem.dart';
 import 'restaurantitem.dart';
 
 class PersonWidget extends StatefulWidget {
@@ -62,21 +63,23 @@ class _PersonWidgetState extends State<PersonWidget> {
 
   user person = user();
   List<dynamic> wishlist = [];
+  List<dynamic>images = [];
 
   @override
   void initState() {
+    connectApi.init();
     connectApi()
         .getData(url: USER, query: data, token: token)
         .then((value) async {
-      print(value);
+      //print(value);
       setState(() {
         person.Name = value.data['name'];
         person.email = value.data['email'];
         person.Following = value.data['following'];
         person.Followers = value.data['followers'];
         person.Tested_meals = value.data['tested_meals'];
-        person.Location = value.data['city']??'القاهره';
-        print(person.Location);
+        person.Location = value.data['city'];
+        //print(person.Location);
         // person.Name = value.data['name'];
         // person.Name = value.data['name'];
       });
@@ -84,9 +87,16 @@ class _PersonWidgetState extends State<PersonWidget> {
     connectApi()
         .getData(url: WISHLIST, query: data, token: token)
         .then((value) async {
-      print(value);
+      //print(value);
       setState(() {
         wishlist = value.data;
+        print(wishlist);
+         wishlist.removeWhere((element) => element['plate']==null);
+        print(wishlist);
+        images = wishlist;
+        // print(wishlist[0]['plate']['images'][0]['url']);
+        // images.removeWhere((element) => element['images']==null);
+        //print(images);
         // person.Name = value.data['name'];
         // person.Name = value.data['name'];
       });
@@ -97,7 +107,289 @@ class _PersonWidgetState extends State<PersonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ((person.Name==null||person.Tested_meals==null||person.Followers==null||person.Following==null))?LinearProgressIndicator():Flex(
+    return ((person.Name==null||person.Tested_meals==null||person.Followers==null||person.Following==null))?LinearProgressIndicator():SingleChildScrollView(child:
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          InkWell(
+            // splashColor: Colors.transparent,
+              onTap: () {
+                var alert = AlertDialog(
+                  title: Text("اختر صورة :"),
+                  content: Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Divider(
+                          color: Colors.black,
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.photo),
+                          title: Text("الاستوديو"),
+                          onTap: () {
+                            setState(() {
+                              getImage(ImageSource.gallery);
+                              Navigator.of(context).pop();
+                              // Image.file(_Image);
+                              // print(_Image.path);
+                              // Accounts[0].Photo = _Image.path;
+                            });
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.camera),
+                          title: Text("الكاميرا"),
+                          onTap: () {
+                            setState(() {
+                              getImage(ImageSource.camera);
+                              Navigator.of(context).pop();
+                              setState(() {
+                                // Accounts[0].Photo = _Image!.path;
+                                print('3' + Accounts[0].Photo);
+                              });
+                              // Image.file(_Image);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => alert);
+              },
+              child: ClipOval(
+                child: widget._Image == null
+                    ? Image.asset(
+                  Accounts[0].Photo,
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                )
+                    : Image.file(
+                  widget._Image!,
+                  width: 160,
+                  height: 160,
+                  fit: BoxFit.cover,
+                ),
+              )
+            // CircleAvatar(
+            //   radius: 53,
+            //   backgroundColor: Colors.white,
+            //   child: CircleAvatar(
+            //     radius: 50,
+            //     backgroundImage:
+            //     AssetImage(Accounts[0].Photo),
+            //   ),
+            // ),
+          ),
+          TextFormField(
+            controller: NameController,
+            keyboardType: TextInputType.name,
+            style: TextStyle(
+                overflow: TextOverflow.visible,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black),
+            textAlign: TextAlign.center,
+            decoration: InputDecoration(
+              hintText: person.Name,
+              border: InputBorder.none,
+              hintStyle: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  overflow: TextOverflow.visible),
+              // contentPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/3),
+            ),
+            onFieldSubmitted: (string) {
+              setState(() {
+                if (!(string.isEmpty)) {
+                  Accounts[0].Name = string;
+                }
+              });
+            },),
+          /* Text(
+                        Accounts[0].Name,
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),*/
+          Container(
+            width: MediaQuery.of(context).size.width / 2,
+            child: TextFormField(
+              controller: LocationController,
+              keyboardType: TextInputType.name,
+              style: TextStyle(fontSize: 25, color: Colors.grey),
+              textAlign: TextAlign.start,
+              decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.location_on_outlined,
+                    color: Colors.grey,
+                  ),
+                  hintText: person.Location,
+                  border: InputBorder.none,
+                  hintStyle:
+                  TextStyle(fontSize: 25, color: Colors.grey)
+                // contentPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/3),
+
+              ),
+              onFieldSubmitted: (string) {
+                setState(() {
+                  if (!(string.isEmpty)) {
+                    person.Location = string;
+                  }
+                });
+              },
+              validator: (string) {
+                if (string!.isEmpty) {
+                  return 'حقل الاسم فارغاً';
+                }
+                return null;
+              },
+            ),
+          ),
+
+          // Divider(
+          //   height: 20,
+          //   color: Colors.grey,
+          //
+          //   // thickness: 0.7,
+          // ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          Divider(
+            height: 20,
+            color: Colors.grey,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    '${person.Followers}',
+                    style: TextStyle(
+                      color: CustomColor.MainColor,
+                      fontSize: 30,
+                    ),
+                  ),
+                  Text(
+                    'متابٍع',
+                    style: TextStyle(fontSize: 25, color: Colors.grey),
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    '${person.Following}',
+                    style: TextStyle(
+                      color: CustomColor.MainColor,
+                      fontSize: 30,
+                    ),
+                  ),
+                  Text(
+                    'متابَع',
+                    style: TextStyle(fontSize: 25, color: Colors.grey),
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    '${person.Tested_meals}',
+                    style: TextStyle(
+                      color: CustomColor.MainColor,
+                      fontSize: 30,
+                    ),
+                  ),
+                  Text(
+                    'وجبه مذاقه',
+                    style: TextStyle(fontSize: 25, color: Colors.grey),
+                  )
+                ],
+              ),
+            ],
+          ),
+          Divider(
+            height: 20,
+            color: Colors.grey,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          /* TabBarView(children: [
+Container(width: 100,
+height: 100,
+color: Colors.red,),
+                          Container(width: 50,
+                            height: 50,
+                            color: Colors.red,),
+                        ])*/
+
+          Align(
+            alignment: Alignment.centerRight,
+
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                'المفضله',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w200),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: true,
+            child: GridView(
+                physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.all(23),
+
+              children: /* Restaurants.asMap().entries.map((RestaurantData){
+                               int index = RestaurantData.key;
+                              print(index);
+                             */
+
+              wishlist.map((
+                  RestaurantData,
+                  ) {
+                //RestaurantData['plate']['title']
+
+
+                return MealItem(Name: RestaurantData['plate']['title'], ImageLogo: RestaurantData['plate']['images'][0]['url'], rate: '3.0', price: RestaurantData['plate']['price'].toString());
+              }).toList(),
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 300,
+                childAspectRatio: 0.58,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+              ),
+            ),
+          ),
+
+
+
+
+
+
+
+        ],),
+      ),);
+  }
+}
+/*
+Flex(
       direction: Axis.vertical,
       children: [
         Expanded(
@@ -352,10 +644,10 @@ color: Colors.red,),
         ),
         Visibility(
             visible: true,
-            child: Flexible(
+            child: Expanded(
               child: GridView(
                 // physics: NeverScrollableScrollPhysics(),
-                //  shrinkWrap: true,
+                   shrinkWrap: true,
                 padding: EdgeInsets.all(23),
 
                 children: /* Restaurants.asMap().entries.map((RestaurantData){
@@ -365,14 +657,7 @@ color: Colors.red,),
                 wishlist.map((
                     RestaurantData,
                     ) {
-                  return RestaurantItem(
-                    Name: RestaurantData.Name,
-                    rate: RestaurantData.rate,
-                    ImageLogo: RestaurantData.ImageLogo,
-                    personreviews: RestaurantData.personreviews,
-                    restaurantdescription: RestaurantData.restaurantdescription,
-                    Branches: RestaurantData.branches,
-                  );
+                  return MealItem(Name: RestaurantData['plate']['title'], ImageLogo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Pictograms-nps-food_service.svg/1200px-Pictograms-nps-food_service.svg.png', rate: '3.0', price: RestaurantData['plate']['price'].toString());
                 }).toList(),
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 165,
@@ -384,9 +669,8 @@ color: Colors.red,),
             ),),
 
       ],
-    );
-  }
-}
+    )
+ */
 /*
 Expanded(
                 child: TabBarView(

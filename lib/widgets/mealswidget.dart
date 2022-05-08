@@ -26,17 +26,24 @@ class _MealsWidgetState extends State<MealsWidget> {
 
   bool re = false;
 
-  List<String>  Filter = ['restaurant_name','rate'];
+  List<String>  Filter = ['title','rate','price'];
 
   var searchkey =    GlobalKey<FormState>();
 
-  String FilterSelection = 'restaurant_name';
+  String FilterSelection = 'title';
 
   void search({required String filter,required String search_keyword}){
     setState(() {
       re = true;
     });
-    search_result = Restaurants.where((element) => element['$filter']== search_keyword).toList();
+    search_result = Plates.where((element) {
+      print(element['$filter']);
+      print(search_keyword);
+      print(element['$filter'].toString()== search_keyword.toString());
+
+        return element['$filter'].toString()== search_keyword.toString();
+
+    }).toList();
 // if(search_result == []) {
 //       setState(() {
 //         search_result = [-1];
@@ -54,10 +61,68 @@ class _MealsWidgetState extends State<MealsWidget> {
       // print(Cities);
       setState(() {
         Caategory = value.data;
-        print(Caategory);
+        // print(Caategory[4]['plates']);
+        //  print();
+
+        Caategory.removeWhere((element) {
+          // print('${element['plates']}     ${element['plates'].isEmpty }\n');
+          return element['plates'].isEmpty;
+        });
+
+
+        // print(Caategory);
+
+
+
+         // print(Caategory[0]['plates'][0]['title']);
         // value.data.forEach((e)=>Cities.add(e['name_ar']));
         // person.Name = value.data['name'];
         // person.Name = value.data['name'];
+
+
+//Caategory.map((e)=>ListView.separated(physics:NeverScrollableScrollPhysics(),shrinkWrap: true,scrollDirection: Axis.horizontal,itemBuilder: (_,int index)=>MealItem(Name: e['plates'][index]['title'], ImageLogo: e['plates'][index]['title'], rate: e['plates'][index]['title'], price: e['plates'][index]['title']), itemCount: e['plates'].length, separatorBuilder: (BuildContext context, int index) => SizedBox(width: 20,) ,)).toList(),))
+//
+
+
+      });
+    });
+
+    connectApi()
+        .getData(url: MEALS, query: data, token: token)
+        .then((value) async {
+
+      // print(Cities);
+      setState(() {
+        Plates = value.data;
+        // print(Caategory[4]['plates']);
+          print(Plates);
+        Plates.removeWhere((element) {
+          // print('${element['plates']}     ${element['plates'].isEmpty }\n');
+          return element['images'].isEmpty;
+        });
+
+       /* Caategory.removeWhere((element) {
+          // print('${element['plates']}     ${element['plates'].isEmpty }\n');
+          return element['plates'].isEmpty;
+        });*/
+        //Black Bean Soup
+        // Blac
+
+
+        // print(Caategory);
+
+
+
+        // print(Caategory[0]['plates'][0]['title']);
+        // value.data.forEach((e)=>Cities.add(e['name_ar']));
+        // person.Name = value.data['name'];
+        // person.Name = value.data['name'];
+
+
+//Caategory.map((e)=>ListView.separated(physics:NeverScrollableScrollPhysics(),shrinkWrap: true,scrollDirection: Axis.horizontal,itemBuilder: (_,int index)=>MealItem(Name: e['plates'][index]['title'], ImageLogo: e['plates'][index]['title'], rate: e['plates'][index]['title'], price: e['plates'][index]['title']), itemCount: e['plates'].length, separatorBuilder: (BuildContext context, int index) => SizedBox(width: 20,) ,)).toList(),))
+//
+
+
       });
     });
 
@@ -78,6 +143,7 @@ class _MealsWidgetState extends State<MealsWidget> {
               child: TextFormField(
                 controller: SearchController,
                 keyboardType: TextInputType.text,
+
                 style: TextStyle(
                   fontSize: 25,
                 ),
@@ -89,7 +155,7 @@ class _MealsWidgetState extends State<MealsWidget> {
                       child: IconButton(
                         icon: Icon(Icons.search),
                         iconSize: 30,
-                        color: Colors.red,
+                        color: CustomColor.MainColor,
                         splashColor: Colors.transparent,
                         splashRadius: 20,
                         onPressed: () {
@@ -125,7 +191,13 @@ class _MealsWidgetState extends State<MealsWidget> {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black12),
                     )),
-                validator: (str) {},
+                validator: (str) {
+
+    if (str!.isEmpty) {
+    return 'حقل البحث فارغاً';
+    }
+    return null;
+    },
               ),
             ),
           ),
@@ -187,6 +259,8 @@ class _MealsWidgetState extends State<MealsWidget> {
               itemCount: Caategory.length,
             ),
           ),
+
+
           Padding(
             padding: const EdgeInsets.only(top: 20.0, right: 20),
             child: Text(
@@ -197,35 +271,84 @@ class _MealsWidgetState extends State<MealsWidget> {
               ),
             ),
           ),
-          Container(
-            height: 275,
-            width: double.infinity,
+          Visibility(
+            visible: (!re ),
+            child: Container(
+              height: 275,
+              width: double.infinity,
 
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              // color: Colors.red,
-              // boxShadow: [
-              //   BoxShadow(
-              //       color: CustomColor.MainColor.withOpacity(0.4),
-              //       offset: Offset(2,2),
-              //       blurRadius:10
-              //   ),
-              // ]
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                // color: Colors.red,
+                // boxShadow: [
+                //   BoxShadow(
+                //       color: CustomColor.MainColor.withOpacity(0.4),
+                //       offset: Offset(2,2),
+                //       blurRadius:10
+                //   ),
+                // ]
+              ),
+              margin: EdgeInsets.symmetric(vertical: 20),
+              // padding: EdgeInsets.symmetric(horizontal: 25),
+              child:
+              ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, int index) {
+                  // Caategory[0]['plates'][0]['title']
+                  //  print(Caategory[index]['plates']['title']);
+
+                  return MealItem(
+                    Name: Plates[index]['title'],
+                    ImageLogo: Plates[index]['images'][0]['url'],
+                    rate: Plates[index]['rate'],//'${Meals[index].rate}',
+                    price: '${Plates[index]['price']}',
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) => SizedBox(
+                  width: 20,
+                ),
+                itemCount: Plates.length,
+              ),
             ),
-            margin: EdgeInsets.symmetric(vertical: 20),
-            // padding: EdgeInsets.symmetric(horizontal: 25),
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (_, int index) => MealItem(
-                Name: Meals[index]['name'],
-                ImageLogo: Meaals[index].ImageLogo,
-                rate: Meaals[index].rate,
-                price: Meaals[index].Price,
+          ),
+          Visibility(
+            visible: (search_result.isNotEmpty && re),
+            child: Container(
+              height: 275,
+              width: double.infinity,
+
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                // color: Colors.red,
+                // boxShadow: [
+                //   BoxShadow(
+                //       color: CustomColor.MainColor.withOpacity(0.4),
+                //       offset: Offset(2,2),
+                //       blurRadius:10
+                //   ),
+                // ]
               ),
-              separatorBuilder: (BuildContext context, int index) => SizedBox(
-                width: 20,
+              margin: EdgeInsets.symmetric(vertical: 20),
+              // padding: EdgeInsets.symmetric(horizontal: 25),
+              child:
+              ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, int index) {
+                  // Caategory[0]['plates'][0]['title']
+                  //  print(Caategory[index]['plates']['title']);
+
+                  return MealItem(
+                    Name: search_result[index]['title'],
+                    ImageLogo: search_result[index]['images'][0]['url'],
+                    rate: search_result[index]['rate'],//'${Meals[index].rate}',
+                    price: '${search_result[index]['price']}',
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) => SizedBox(
+                  width: 20,
+                ),
+                itemCount: search_result.length,
               ),
-              itemCount: Meaals.length,
             ),
           ),
           Padding(
@@ -280,6 +403,42 @@ class _MealsWidgetState extends State<MealsWidget> {
                 // Image.asset(posts[5].imageurl,fit: BoxFit.cover,),
                 ),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 20.0, right: 20),
+          //   child: Text(
+          //     Caategory[index]['name'],
+          //     style: TextStyle(
+          //       fontSize: 30,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
+          /*GridView(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.all(23),
+
+            children: /* Restaurants.asMap().entries.map((RestaurantData){
+                               int index = RestaurantData.key;
+                              print(index);
+                             */
+
+            Caategory.map((
+                RestaurantData,
+                ) {
+              //RestaurantData['plate']['title']
+print(RestaurantData);
+
+              return MealItem(Name: RestaurantData['plates']['title'], ImageLogo: RestaurantData['plates']['images'][0]['url'], rate: RestaurantData['plates']['rate'], price: RestaurantData['plates']['price'].toString());
+            }).toList(),
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 300,
+              childAspectRatio: 0.58,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+            ),
+          ),*/
+
 
           /*GridView(
                 padding: EdgeInsets.all(25),

@@ -135,6 +135,8 @@ const CITY  = 'cities';
 const RESTAURANTS  = 'restaurants';
 const WISHLIST  = 'wishlists';
 const POSTS  = 'posts';
+const MEALS  = 'plates';
 const CATEGORY  = 'categories';
+const COMMENTS  = 'comments';
 // const MEALS  = 'meals';
 
